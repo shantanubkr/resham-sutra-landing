@@ -1,41 +1,35 @@
-<<<<<<< HEAD
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Resham Sutra — Marketing Site
 
-## Getting Started
+Landing site for [Resham Sutra](https://www.reshamsutra.com) — silk livelihood ecosystems for rural women across India.
 
-First, run the development server:
+## Development
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Scripts
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+| Command | Purpose |
+|---------|---------|
+| `npm run dev` | Local dev server |
+| `npm run build` | Production build |
+| `npm run start` | Run production build |
+| `npm run sync:images` | Copy `assets/site/` → `public/` after image edits |
 
-## Learn More
+## Assets
 
-To learn more about Next.js, take a look at the following resources:
+Edit website images in `assets/site/`, then run `npm run sync:images`. See `assets/README.md`.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Reference docs (case studies, research PDFs) live in `assets/reference/`.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Contact form
 
-## Deploy on Vercel
+Copy `.env.example` to `.env.local` and set `WEB3FORMS_ACCESS_KEY` or Resend credentials.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Deploy
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
-=======
-# resham-sutra-landing
-Landing page for Resham Sutra
->>>>>>> a7c982f671770b6297ec15a9aecf5efbcc222773
+Deploy to Vercel (or any Node host). Set production env vars for the contact form. See `SITE_COMPLETION_CHECKLIST.md` for launch items.

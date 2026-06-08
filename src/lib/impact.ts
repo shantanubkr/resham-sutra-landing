@@ -58,16 +58,26 @@ export const IMPACT_STORIES = [
 
 export const IMPACT_HIGHLIGHTS = [
   {
+    value: SITE_METRICS.jobsCreated,
+    suffix: "+",
+    label: "direct jobs created",
+    personal: `${SITE_METRICS.womenTotalImpact.toLocaleString("en-IN")}+ women impacted in total — replacing thigh-reeling and manual work with solar-powered livelihoods (Ashden application).`,
+  },
+  {
+    value: SITE_METRICS.recsSetup,
+    label: "Rural Experience Centres",
+    personal: "One-stop hubs for machine demos, training, finance linkage, and cocoon banks — turning isolated workers into connected micro-entrepreneurs.",
+  },
+  {
+    value: SITE_METRICS.rfcsSetup,
+    label: "Rural Facility Centres",
+    personal: "Shared village workspaces where women produce together with peer learning, quality control, and no overhead burden.",
+  },
+  {
     value: SITE_METRICS.ruralProducers,
     suffix: "+",
     label: "rural producers",
     personal: "Each with a name, a village, and a story like the ones above.",
-  },
-  {
-    value: SITE_METRICS.villages,
-    suffix: "+",
-    label: "villages",
-    personal: "Decentralised production hubs close to cocoon sources.",
   },
   {
     value: SITE_METRICS.states,
@@ -78,7 +88,7 @@ export const IMPACT_HIGHLIGHTS = [
     value: SITE_METRICS.incomeIncreasePercent,
     suffix: "%",
     label: "report higher income",
-    personal: `${RESEARCH_METRICS.incomeIncreasedAllUsersPercent}% of machine users in CEEW’s assessment (N=${RESEARCH_METRICS.ceeewSampleSize}); ${RESEARCH_METRICS.incomeIncreasedMachineUsersPercent}% in 60 Decibels’ 2025 survey. Case studies include Narita (₹1,000 → ₹4,000/mo).`,
+    personal: `${RESEARCH_METRICS.incomeIncreasedAllUsersPercent}% of machine users in CEEW’s assessment (N=${RESEARCH_METRICS.ceeewSampleSize}); ${RESEARCH_METRICS.incomeIncreasedMachineUsersPercent}% in 60 Decibels’ 2025 survey.`,
   },
 ] as const;
 

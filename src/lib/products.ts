@@ -232,7 +232,7 @@ export const SERVICES = [
     image: PRODUCT_IMAGES.services["experience-centres"],
     tagline: "One-stop hubs for training and machine familiarisation.",
     description:
-      "RECs demonstrate innovative machines, connect beneficiaries to finance, and serve as cocoon banks and sales channels for deeper rural market penetration.",
+      `${SITE_METRICS.recsSetup} RECs operate as one-stop hubs — machine demonstrations, training, technical and business support, and finance linkage for micro-entrepreneurs.`,
     highlights: [
       "Live machine demonstrations",
       "Credit and subsidy linkage",
@@ -258,7 +258,7 @@ export const SERVICES = [
     image: PRODUCT_IMAGES.services["facility-centres"],
     tagline: "Safe, organised production spaces in villages.",
     description:
-      "Shared production centres where women work on machines they own or operate as a group. Combines dignity of workplace, peer learning, and quality control.",
+      `${SITE_METRICS.rfcsSetup} RFCs are shared village workspaces where producers work without overhead — safe, organised production with peer learning and quality control.`,
     highlights: [
       "Safe communal workspaces",
       "Organised village production",

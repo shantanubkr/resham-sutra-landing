@@ -1,8 +1,8 @@
 /**
  * Canonical metrics for the marketing site.
  *
- * Operational scale — company reporting (2022 web content baseline; field totals
- * unchanged until newer audited figures are provided).
+ * Operational scale — Ashden application (REC/RFC/jobs); 2022 web content baseline
+ * for machines/villages/producers unless superseded.
  *
  * Research-backed outcomes — `assets/reference/research/`:
  * - 60 Decibels Impact Performance Report (Jul–Aug 2025, n=201 spinners)
@@ -27,6 +27,14 @@ export const SITE_METRICS = {
   teamSize: 22,
   fieldTechnicians: 20,
   visionProducersTarget: 500000,
+  /** Ashden application: direct rural silk livelihood jobs created. */
+  jobsCreated: 30000,
+  /** Rural Experience Centres — one-stop training & machine hubs. */
+  recsSetup: 9,
+  /** Rural Facility Centres — shared village production spaces. */
+  rfcsSetup: 47,
+  /** Ashden application: total women impacted (direct + indirect). */
+  womenTotalImpact: 100000,
 } as const;
 
 /** Verified survey findings from independent research (2021–2025). */
@@ -82,5 +90,11 @@ export const RESEARCH_SOURCES = [
     publisher: "CEEW & Villgro (Powering Livelihoods)",
     year: 2021,
     note: "Sector market sizing and value-chain analysis",
+  },
+  {
+    title: "Ashden Award application",
+    publisher: "Resham Sutra",
+    year: null,
+    note: "30,000+ jobs · 9 RECs · 47 RFCs · 100,000+ women impacted",
   },
 ] as const;

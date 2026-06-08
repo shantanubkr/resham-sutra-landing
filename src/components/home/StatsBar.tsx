@@ -21,13 +21,23 @@ export function StatsBar() {
             suffix="+"
             className="font-bold text-[#1A1A1A]"
           />{" "}
-          solar machines, training{" "}
+          solar machines, creating{" "}
           <AnimatedNumber
-            value={SITE_METRICS.womenProducers}
+            value={SITE_METRICS.jobsCreated}
             suffix="+"
             className="font-bold text-[#1A1A1A]"
           />{" "}
-          women across{" "}
+          direct jobs through{" "}
+          <AnimatedNumber
+            value={SITE_METRICS.recsSetup}
+            className="font-bold text-[#1A1A1A]"
+          />{" "}
+          experience centres and{" "}
+          <AnimatedNumber
+            value={SITE_METRICS.rfcsSetup}
+            className="font-bold text-[#1A1A1A]"
+          />{" "}
+          facility centres across{" "}
           <AnimatedNumber
             value={SITE_METRICS.states}
             className="font-bold text-[#1A1A1A]"

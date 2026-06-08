@@ -52,16 +52,18 @@ export const HERO_STATS = [
     suffix: "+",
     label: "machines deployed",
   },
-  { value: SITE_METRICS.states, label: "states across India" },
   {
-    value: SITE_METRICS.ruralProducers,
+    value: SITE_METRICS.jobsCreated,
     suffix: "+",
-    label: "rural producers reached",
+    label: "direct jobs created",
   },
   {
-    value: new Date().getFullYear() - SITE_METRICS.foundedYear,
-    suffix: "+",
-    label: "years building livelihoods",
+    value: SITE_METRICS.recsSetup,
+    label: "Rural Experience Centres",
+  },
+  {
+    value: SITE_METRICS.rfcsSetup,
+    label: "Rural Facility Centres",
   },
 ] as const;
 
@@ -73,10 +75,20 @@ export const IMPACT_STATS = [
     detail: `${SITE_METRICS.productivityRange} productivity vs traditional`,
   },
   {
-    value: SITE_METRICS.womenProducers,
+    value: SITE_METRICS.jobsCreated,
     suffix: "+",
-    context: "women producers",
-    detail: "Over 90% of producers are women",
+    context: "direct jobs created",
+    detail: `${SITE_METRICS.womenTotalImpact.toLocaleString("en-IN")}+ women impacted overall`,
+  },
+  {
+    value: SITE_METRICS.recsSetup,
+    context: "experience centres (RECs)",
+    detail: "Training, demos, and machine access hubs",
+  },
+  {
+    value: SITE_METRICS.rfcsSetup,
+    context: "facility centres (RFCs)",
+    detail: "Shared production spaces for producer groups",
   },
   {
     value: SITE_METRICS.states,
@@ -88,17 +100,6 @@ export const IMPACT_STATS = [
     suffix: "%",
     context: "report higher income",
     detail: `CEEW assessment (N=${RESEARCH_METRICS.ceeewSampleSize}) · 60 Decibels ${RESEARCH_METRICS.decibelsSurveyYear}`,
-  },
-  {
-    value: RESEARCH_METRICS.netPromoterScore,
-    context: "Net Promoter Score",
-    detail: `${RESEARCH_METRICS.promoterPercent}% Promoters among machine users surveyed`,
-  },
-  {
-    value: SITE_METRICS.peopleBenefited,
-    suffix: "+",
-    context: "lives impacted since 2019",
-    detail: "Producers, families, and local service networks",
   },
 ] as const;
 

@@ -39,7 +39,7 @@ export const JOURNEY_MILESTONES = [
   {
     year: "Today",
     title: "Proven on the ground",
-    description: `${SITE_METRICS.machinesDeployed.toLocaleString("en-IN")}+ machines in ${SITE_METRICS.villages}+ villages · ${SITE_METRICS.womenProducers.toLocaleString("en-IN")}+ women producers · ${SITE_METRICS.incomeIncreasePercent}% of surveyed users report higher income (CEEW).`,
+    description: `${SITE_METRICS.machinesDeployed.toLocaleString("en-IN")}+ machines · ${SITE_METRICS.jobsCreated.toLocaleString("en-IN")}+ jobs · ${SITE_METRICS.recsSetup} RECs · ${SITE_METRICS.rfcsSetup} RFCs across ${SITE_METRICS.states} states.`,
   },
 ] as const;
 

@@ -6,6 +6,12 @@ import { WhatsAppFloat } from "@/components/layout/WhatsAppFloat";
 import { BRAND_IMAGES } from "@/lib/images";
 import "./globals.css";
 
+const siteUrl =
+  process.env.NEXT_PUBLIC_SITE_URL ??
+  (process.env.VERCEL_URL
+    ? `https://${process.env.VERCEL_URL}`
+    : "https://www.reshamsutra.com");
+
 const dmSans = DM_Sans({
   variable: "--font-dm-sans",
   subsets: ["latin"],
@@ -13,6 +19,7 @@ const dmSans = DM_Sans({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(siteUrl),
   title: {
     default: "Resham Sutra | Silk Livelihood Ecosystems for Rural Women",
     template: "%s · Resham Sutra",

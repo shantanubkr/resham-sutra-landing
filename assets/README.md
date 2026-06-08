@@ -29,7 +29,7 @@ Mirrors what Next.js serves from `public/`. Folder names match page sections.
 | `site/images/about/` | About page photos |
 | `site/images/team/` | Team group photos + leadership headshots (`kunal-vaid.jpg`, `ratan-vaid.png`, `upasna-jain.jpg`) |
 | `site/images/advisors/` | Advisor headshots (`firstname-lastname.jpg`) |
-| `site/images/partners/logos/` | Partner logo files (`partner-slug.png`) |
+| `site/images/partners/logos/` | Partner logo files (`{slug}.png` or `.jpg`) — see `src/lib/partners.ts` |
 | `site/images/programs/` | Programs hub + cluster/solar/district |
 | `site/images/products/` | Products hub cards and section heroes |
 | `site/images/products/machines/` | One photo per machine (`slug.jpg`) |

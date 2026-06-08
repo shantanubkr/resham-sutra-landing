@@ -1,32 +1,41 @@
 import Image from "next/image";
 import { Button } from "@/components/ui/Button";
-import { CONTACT, PARTNERS } from "@/lib/constants";
+import { CONTACT } from "@/lib/constants";
+import { PARTNERS, splitPartnersForMarquee } from "@/lib/partners";
 
-const PARTNER_ROWS = [
-  PARTNERS.slice(0, 7),
-  PARTNERS.slice(7, 13),
-] as const;
+const [PARTNER_ROW_A, PARTNER_ROW_B] = splitPartnersForMarquee(PARTNERS);
 
 function PartnerCard({
   name,
   image,
+  state,
 }: {
   name: string;
-  image: string;
+  image?: string;
+  state?: string;
 }) {
   return (
     <div className="flex h-[148px] w-[200px] shrink-0 flex-col items-center justify-center rounded-lg border border-[#EEEEEE] bg-white px-4 py-3 shadow-sm transition-colors hover:border-brand-green/30 sm:w-[220px]">
-      <div className="relative h-16 w-full">
-        <Image
-          src={image}
-          alt={name}
-          fill
-          className="object-contain object-center"
-          sizes="220px"
-        />
+      <div className="relative flex h-16 w-full items-center justify-center">
+        {image ? (
+          <Image
+            src={image}
+            alt={name}
+            fill
+            className="object-contain object-center"
+            sizes="220px"
+          />
+        ) : (
+          <div className="flex h-full w-full items-center justify-center rounded-md bg-brand-purple/[0.06] px-2">
+            <span className="text-center text-[11px] font-bold leading-tight text-brand-purple sm:text-xs">
+              {name.split(" ").slice(0, 3).join(" ")}
+            </span>
+          </div>
+        )}
       </div>
       <p className="mt-3 line-clamp-2 text-center text-[10px] font-medium leading-snug text-[#555555] sm:text-xs">
         {name}
+        {state ? ` · ${state}` : ""}
       </p>
     </div>
   );
@@ -54,6 +63,7 @@ function PartnerMarqueeRow({
             key={`${partner.slug}-${index}`}
             name={partner.name}
             image={partner.image}
+            state={partner.state}
           />
         ))}
       </div>
@@ -73,15 +83,15 @@ export function Partners() {
             Trusted by institutions across India
           </h2>
           <p className="mx-auto mt-3 max-w-xl text-[#555555]">
-            State governments, national boards, and social impact organizations
-            partner with us to scale rural silk livelihoods.
+            Strategic funders, state bodies, and on-ground organisations partner
+            with us to scale rural silk livelihoods.
           </p>
         </div>
       </div>
 
       <div className="space-y-4 pb-4">
-        <PartnerMarqueeRow partners={PARTNER_ROWS[0]} />
-        <PartnerMarqueeRow partners={PARTNER_ROWS[1]} reverse />
+        <PartnerMarqueeRow partners={PARTNER_ROW_A} />
+        <PartnerMarqueeRow partners={PARTNER_ROW_B} reverse />
       </div>
 
       <div className="mx-auto max-w-5xl px-4 pb-16 pt-12 sm:px-6 lg:px-8 lg:pb-20">

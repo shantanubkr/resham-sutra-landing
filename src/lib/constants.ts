@@ -1,5 +1,7 @@
-import { HOME_IMAGES, IMPACT_IMAGES, PARTNER_IMAGES } from "@/lib/images";
+import { HOME_IMAGES, IMPACT_IMAGES } from "@/lib/images";
 import { RESEARCH_METRICS, SITE_METRICS } from "@/lib/metrics";
+
+export { PARTNERS } from "@/lib/partners";
 
 export const BRAND = {
   yellow: "#FCE900",
@@ -97,74 +99,6 @@ export const IMPACT_STATS = [
     suffix: "+",
     context: "lives impacted since 2019",
     detail: "Producers, families, and local service networks",
-  },
-] as const;
-
-export const PARTNERS = [
-  {
-    name: "Selco Foundation",
-    slug: "selco-foundation" as const,
-    image: PARTNER_IMAGES["selco-foundation"],
-  },
-  {
-    name: "Meghalaya State Livelihood Society",
-    slug: "meghalaya-sls" as const,
-    image: PARTNER_IMAGES["meghalaya-sls"],
-  },
-  {
-    name: "Prerna Ojas",
-    slug: "prerna-ojas" as const,
-    image: PARTNER_IMAGES["prerna-ojas"],
-  },
-  {
-    name: "Acumen Academy",
-    slug: "acumen-academy" as const,
-    image: PARTNER_IMAGES["acumen-academy"],
-  },
-  {
-    name: "Jharcraft",
-    slug: "jharcraft" as const,
-    image: PARTNER_IMAGES.jharcraft,
-  },
-  {
-    name: "Central Silk Board",
-    slug: "central-silk-board" as const,
-    image: PARTNER_IMAGES["central-silk-board"],
-  },
-  {
-    name: "State of Odisha",
-    slug: "state-of-odisha" as const,
-    image: PARTNER_IMAGES["state-of-odisha"],
-  },
-  {
-    name: "CEEW",
-    slug: "ceew" as const,
-    image: PARTNER_IMAGES.ceew,
-  },
-  {
-    name: "Villgro",
-    slug: "villgro" as const,
-    image: PARTNER_IMAGES.villgro,
-  },
-  {
-    name: "State of Chhattisgarh",
-    slug: "state-of-chhattisgarh" as const,
-    image: PARTNER_IMAGES["state-of-chhattisgarh"],
-  },
-  {
-    name: "Jharkhand State Livelihood Promotion Society",
-    slug: "jslps" as const,
-    image: PARTNER_IMAGES.jslps,
-  },
-  {
-    name: "Aurora Trust",
-    slug: "aurora-trust" as const,
-    image: PARTNER_IMAGES["aurora-trust"],
-  },
-  {
-    name: "Upaya Social Ventures",
-    slug: "upaya" as const,
-    image: PARTNER_IMAGES.upaya,
   },
 ] as const;
 

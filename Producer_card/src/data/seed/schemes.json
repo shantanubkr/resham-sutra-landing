@@ -1,0 +1,193 @@
+[
+  {
+    "id": "scheme-1",
+    "name": "PMKVY",
+    "administeringBody": "Ministry of Skill Development",
+    "description": "Pradhan Mantri Kaushal Vikas Yojana — skill certification and training support for artisans.",
+    "referenceUrl": "https://www.pmkvyofficial.org",
+    "eligibilityGender": "any",
+    "eligibilitySkillCategories": [
+      "weaver",
+      "spinner",
+      "yarn_dyer"
+    ],
+    "eligibilityAgeMin": 18,
+    "eligibilityAgeMax": 45,
+    "isActive": true
+  },
+  {
+    "id": "scheme-2",
+    "name": "PM Vishwakarma",
+    "administeringBody": "Ministry of MSME",
+    "description": "Support for traditional artisans and craftspeople with toolkit incentives and training.",
+    "referenceUrl": "https://pmvishwakarma.gov.in",
+    "eligibilityGender": "any",
+    "eligibilitySkillCategories": [
+      "weaver",
+      "spinner",
+      "yarn_dyer",
+      "designer"
+    ],
+    "eligibilityAgeMin": 18,
+    "eligibilityAgeMax": null,
+    "isActive": true
+  },
+  {
+    "id": "scheme-3",
+    "name": "MUDRA Shishu",
+    "administeringBody": "SIDBI / Banks",
+    "description": "Micro loans up to ₹50,000 for small business and livelihood activities.",
+    "referenceUrl": "https://www.mudra.org.in",
+    "eligibilityGender": "any",
+    "eligibilitySkillCategories": [
+      "weaver",
+      "spinner",
+      "designer"
+    ],
+    "eligibilityAgeMin": null,
+    "eligibilityAgeMax": null,
+    "isActive": true
+  },
+  {
+    "id": "scheme-4",
+    "name": "Stand-Up India",
+    "administeringBody": "Department of Financial Services",
+    "description": "Bank loans for SC/ST and women entrepreneurs.",
+    "referenceUrl": "https://www.standupmitra.in",
+    "eligibilityGender": "female",
+    "eligibilitySkillCategories": [
+      "weaver",
+      "designer"
+    ],
+    "eligibilityAgeMin": 18,
+    "eligibilityAgeMax": null,
+    "isActive": true
+  },
+  {
+    "id": "scheme-5",
+    "name": "Mahila Shakti Kendra",
+    "administeringBody": "Ministry of WCD",
+    "description": "Community engagement and skill development for rural women.",
+    "referenceUrl": "https://wcd.nic.in",
+    "eligibilityGender": "female",
+    "eligibilitySkillCategories": [
+      "weaver",
+      "spinner",
+      "yarn_dyer"
+    ],
+    "eligibilityAgeMin": null,
+    "eligibilityAgeMax": null,
+    "isActive": true
+  },
+  {
+    "id": "scheme-6",
+    "name": "DAY-NRLM",
+    "administeringBody": "Ministry of Rural Development",
+    "description": "National Rural Livelihood Mission — SHG and livelihood support.",
+    "referenceUrl": "https://nrlm.gov.in",
+    "eligibilityGender": "any",
+    "eligibilitySkillCategories": [
+      "weaver",
+      "spinner",
+      "yarn_dyer",
+      "farmer",
+      "cocoon_rearer"
+    ],
+    "eligibilityAgeMin": null,
+    "eligibilityAgeMax": null,
+    "isActive": true
+  },
+  {
+    "id": "scheme-7",
+    "name": "PM-VIKAS",
+    "administeringBody": "Ministry of Textiles",
+    "description": "Integrated development and skill upgradation for handloom weavers.",
+    "referenceUrl": "https://handlooms.nic.in",
+    "eligibilityGender": "any",
+    "eligibilitySkillCategories": [
+      "weaver",
+      "yarn_dyer",
+      "designer"
+    ],
+    "eligibilityAgeMin": null,
+    "eligibilityAgeMax": null,
+    "isActive": true
+  },
+  {
+    "id": "scheme-8",
+    "name": "SFURTI",
+    "administeringBody": "Ministry of MSME",
+    "description": "Scheme of Fund for Regeneration of Traditional Industries.",
+    "referenceUrl": "https://sfurti.msme.gov.in",
+    "eligibilityGender": "any",
+    "eligibilitySkillCategories": [
+      "weaver",
+      "spinner",
+      "yarn_dyer"
+    ],
+    "eligibilityAgeMin": null,
+    "eligibilityAgeMax": null,
+    "isActive": true
+  },
+  {
+    "id": "scheme-9",
+    "name": "ASPIRE",
+    "administeringBody": "Ministry of MSME",
+    "description": "Promotion of innovation and rural entrepreneurship.",
+    "referenceUrl": "https://msme.gov.in",
+    "eligibilityGender": "any",
+    "eligibilitySkillCategories": [
+      "designer",
+      "cocoon_rearer",
+      "farmer"
+    ],
+    "eligibilityAgeMin": 18,
+    "eligibilityAgeMax": 35,
+    "isActive": true
+  },
+  {
+    "id": "scheme-10",
+    "name": "Credit Guarantee Fund",
+    "administeringBody": "NCGTC",
+    "description": "Collateral-free credit guarantee for micro enterprises.",
+    "referenceUrl": "https://www.ncgtc.in",
+    "eligibilityGender": "any",
+    "eligibilitySkillCategories": [
+      "weaver",
+      "spinner",
+      "designer"
+    ],
+    "eligibilityAgeMin": null,
+    "eligibilityAgeMax": null,
+    "isActive": true
+  },
+  {
+    "id": "scheme-11",
+    "name": "Solar Charkha Mission",
+    "administeringBody": "Ministry of MSME",
+    "description": "Solar-powered charkha clusters for spinners and weavers.",
+    "referenceUrl": "https://msme.gov.in",
+    "eligibilityGender": "any",
+    "eligibilitySkillCategories": [
+      "spinner",
+      "weaver"
+    ],
+    "eligibilityAgeMin": null,
+    "eligibilityAgeMax": null,
+    "isActive": true
+  },
+  {
+    "id": "scheme-12",
+    "name": "Handloom Weavers Package",
+    "administeringBody": "Ministry of Textiles",
+    "description": "Comprehensive welfare for handloom weaver families.",
+    "referenceUrl": "https://handlooms.nic.in",
+    "eligibilityGender": "any",
+    "eligibilitySkillCategories": [
+      "weaver"
+    ],
+    "eligibilityAgeMin": null,
+    "eligibilityAgeMax": null,
+    "isActive": true
+  }
+]

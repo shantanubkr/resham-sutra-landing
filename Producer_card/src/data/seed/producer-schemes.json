@@ -1,0 +1,19 @@
+[
+  { "producerId": "prod-1", "schemeId": "scheme-1", "taggedBy": "auto_match", "taggedAt": "2026-01-15T00:00:00.000Z" },
+  { "producerId": "prod-1", "schemeId": "scheme-4", "taggedBy": "auto_match", "taggedAt": "2026-01-15T00:00:00.000Z" },
+  { "producerId": "prod-1", "schemeId": "scheme-5", "taggedBy": "auto_match", "taggedAt": "2026-01-15T00:00:00.000Z" },
+  { "producerId": "prod-1", "schemeId": "scheme-6", "taggedBy": "auto_match", "taggedAt": "2026-01-15T00:00:00.000Z" },
+  { "producerId": "prod-1", "schemeId": "scheme-12", "taggedBy": "auto_match", "taggedAt": "2026-01-15T00:00:00.000Z" },
+  { "producerId": "prod-2", "schemeId": "scheme-5", "taggedBy": "auto_match", "taggedAt": "2026-01-20T00:00:00.000Z" },
+  { "producerId": "prod-2", "schemeId": "scheme-6", "taggedBy": "auto_match", "taggedAt": "2026-01-20T00:00:00.000Z" },
+  { "producerId": "prod-2", "schemeId": "scheme-12", "taggedBy": "auto_match", "taggedAt": "2026-01-20T00:00:00.000Z" },
+  { "producerId": "prod-4", "schemeId": "scheme-3", "taggedBy": "auto_match", "taggedAt": "2026-02-10T00:00:00.000Z" },
+  { "producerId": "prod-4", "schemeId": "scheme-5", "taggedBy": "auto_match", "taggedAt": "2026-02-10T00:00:00.000Z" },
+  { "producerId": "prod-4", "schemeId": "scheme-6", "taggedBy": "auto_match", "taggedAt": "2026-02-10T00:00:00.000Z" },
+  { "producerId": "prod-6", "schemeId": "scheme-1", "taggedBy": "auto_match", "taggedAt": "2026-03-01T00:00:00.000Z" },
+  { "producerId": "prod-6", "schemeId": "scheme-4", "taggedBy": "auto_match", "taggedAt": "2026-03-01T00:00:00.000Z" },
+  { "producerId": "prod-6", "schemeId": "scheme-5", "taggedBy": "auto_match", "taggedAt": "2026-03-01T00:00:00.000Z" },
+  { "producerId": "prod-9", "schemeId": "scheme-4", "taggedBy": "auto_match", "taggedAt": "2026-02-20T00:00:00.000Z" },
+  { "producerId": "prod-9", "schemeId": "scheme-5", "taggedBy": "auto_match", "taggedAt": "2026-02-20T00:00:00.000Z" },
+  { "producerId": "prod-9", "schemeId": "scheme-12", "taggedBy": "auto_match", "taggedAt": "2026-02-20T00:00:00.000Z" }
+]

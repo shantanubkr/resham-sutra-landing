@@ -1,0 +1,42 @@
+[
+  {
+    "id": "cluster-sualkuchi",
+    "name": "Sualkuchi",
+    "villageNames": ["Sualkuchi"],
+    "district": "Kamrup",
+    "state": "Assam",
+    "pinCode": "781103",
+    "assignedClusterHeadId": "user-head-sualkuchi",
+    "assignedReshamDootId": "user-field-sualkuchi",
+    "assignedReshamDootIds": ["user-field-sualkuchi"],
+    "offlineManagers": [
+      { "role": "community_resource_person", "name": "Hemanta Kalita", "contact": "9876500001" },
+      { "role": "aggregator", "name": "Bikash Sarma", "contact": "9876500002" },
+      { "role": "master_trainer", "name": "Jyoti Nath", "contact": "9876500003" },
+      { "role": "quality_check_officer", "name": "Rina Devi", "contact": "9876500004" },
+      { "role": "packaging_dispatch_manager", "name": "Arun Medhi", "contact": "9876500005" },
+      { "role": "accountant", "name": "Pranab Das", "contact": "9876500006" },
+      { "role": "procurement_inventory_manager", "name": "Manoj Barman", "contact": "9876500007" }
+    ]
+  },
+  {
+    "id": "cluster-barpeta",
+    "name": "Barpeta",
+    "villageNames": ["Barpeta"],
+    "district": "Barpeta",
+    "state": "Assam",
+    "pinCode": "781301",
+    "assignedClusterHeadId": "user-head-barpeta",
+    "assignedReshamDootId": "user-field-barpeta",
+    "assignedReshamDootIds": ["user-field-barpeta", "user-field-sualkuchi"],
+    "offlineManagers": [
+      { "role": "community_resource_person", "name": "", "contact": "" },
+      { "role": "aggregator", "name": "", "contact": "" },
+      { "role": "master_trainer", "name": "", "contact": "" },
+      { "role": "quality_check_officer", "name": "", "contact": "" },
+      { "role": "packaging_dispatch_manager", "name": "", "contact": "" },
+      { "role": "accountant", "name": "", "contact": "" },
+      { "role": "procurement_inventory_manager", "name": "", "contact": "" }
+    ]
+  }
+]

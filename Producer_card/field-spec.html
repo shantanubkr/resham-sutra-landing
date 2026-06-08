@@ -1,0 +1,1375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Resham Sutra — Field Specification</title>
+<style>
+  :root {
+    --bg: #f7f6f3;
+    --surface: #ffffff;
+    --border: #e2e0da;
+    --text: #1a1a1a;
+    --muted: #6b6860;
+    --accent: #2c5f2e;
+    --accent-light: #eaf2eb;
+    --pending: #92400e;
+    --pending-bg: #fef3c7;
+    --no: #991b1b;
+    --no-bg: #fee2e2;
+    --yes: #065f46;
+    --yes-bg: #d1fae5;
+    --sidebar-w: 260px;
+    --font: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: var(--font);
+    background: var(--bg);
+    color: var(--text);
+    font-size: 14px;
+    line-height: 1.6;
+    display: flex;
+  }
+
+  /* ── SIDEBAR ── */
+  #sidebar {
+    width: var(--sidebar-w);
+    min-width: var(--sidebar-w);
+    background: var(--surface);
+    border-right: 1px solid var(--border);
+    height: 100vh;
+    position: sticky;
+    top: 0;
+    overflow-y: auto;
+    padding: 0;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+  }
+  .sidebar-header {
+    padding: 20px 16px 12px;
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 0;
+    background: var(--surface);
+    z-index: 10;
+  }
+  .sidebar-header h1 {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--accent);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+  .sidebar-header p { font-size: 11px; color: var(--muted); margin-top: 2px; }
+  nav { padding: 12px 0 20px; }
+  nav a {
+    display: block;
+    padding: 6px 16px;
+    font-size: 12.5px;
+    color: var(--muted);
+    text-decoration: none;
+    border-left: 3px solid transparent;
+    transition: all 0.15s;
+  }
+  nav a:hover { color: var(--accent); background: var(--accent-light); border-left-color: var(--accent); }
+  nav a.active { color: var(--accent); font-weight: 600; border-left-color: var(--accent); background: var(--accent-light); }
+  nav .nav-sub {
+    padding-left: 28px;
+    font-size: 11.5px;
+    color: #999;
+  }
+  nav .nav-sub:hover { color: var(--accent); }
+  .sidebar-actions {
+    margin-top: auto;
+    padding: 12px 16px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .sidebar-actions button {
+    width: 100%;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    border: 1px solid;
+    transition: all 0.15s;
+  }
+  #btnSave {
+    background: var(--accent);
+    color: white;
+    border-color: var(--accent);
+  }
+  #btnSave:hover { background: #1e4220; }
+  #btnExport {
+    background: white;
+    color: var(--accent);
+    border-color: var(--accent);
+  }
+  #btnExport:hover { background: var(--accent-light); }
+  #btnClear {
+    background: white;
+    color: var(--muted);
+    border-color: var(--border);
+    font-weight: 400;
+  }
+  #btnClear:hover { color: var(--no); border-color: var(--no); }
+  .save-indicator {
+    font-size: 11px;
+    color: var(--muted);
+    text-align: center;
+  }
+
+  /* ── MAIN ── */
+  #main {
+    flex: 1;
+    max-width: 900px;
+    padding: 40px 48px;
+    overflow-x: hidden;
+  }
+
+  .page-title { margin-bottom: 32px; }
+  .page-title h1 { font-size: 24px; font-weight: 700; color: var(--accent); }
+  .page-title p { color: var(--muted); font-size: 13px; margin-top: 4px; }
+
+  .legend {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    padding: 12px 16px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    margin-bottom: 36px;
+    font-size: 12.5px;
+  }
+  .legend span { display: flex; align-items: center; gap: 6px; }
+
+  /* ── SECTIONS ── */
+  .section {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    margin-bottom: 28px;
+    overflow: hidden;
+  }
+  .section-header {
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    user-select: none;
+    background: #fafaf9;
+  }
+  .section-header:hover { background: var(--accent-light); }
+  .section-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .section-num {
+    background: var(--accent);
+    color: white;
+    border-radius: 5px;
+    padding: 2px 8px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+  }
+  .section-title h2 { font-size: 15px; font-weight: 700; }
+  .section-title p { font-size: 12px; color: var(--muted); }
+  .toggle-icon { color: var(--muted); font-size: 18px; transition: transform 0.2s; }
+  .section-body { padding: 0; }
+  .section-body.collapsed { display: none; }
+
+  .subsection {
+    border-bottom: 1px solid var(--border);
+    padding: 20px 24px;
+  }
+  .subsection:last-child { border-bottom: none; }
+  .subsection-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 14px;
+  }
+  .description {
+    font-size: 13px;
+    color: var(--muted);
+    background: var(--accent-light);
+    border-left: 3px solid var(--accent);
+    padding: 8px 12px;
+    border-radius: 0 6px 6px 0;
+    margin-bottom: 16px;
+  }
+  .question-label {
+    font-size: 13px;
+    font-weight: 600;
+    margin: 16px 0 8px;
+    color: var(--text);
+  }
+  .question-label.first { margin-top: 0; }
+
+  /* ── TABLES ── */
+  .table-wrap { overflow-x: auto; margin-bottom: 8px; }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+  thead tr { background: #f5f4f0; }
+  th {
+    padding: 8px 10px;
+    text-align: left;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    border-bottom: 1px solid var(--border);
+    white-space: nowrap;
+  }
+  td {
+    padding: 7px 10px;
+    border-bottom: 1px solid #f0ede8;
+    vertical-align: middle;
+  }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: #fafaf9; }
+
+  /* editable cells */
+  td[contenteditable="true"] {
+    outline: none;
+    cursor: text;
+    min-width: 60px;
+  }
+  td[contenteditable="true"]:focus {
+    background: #fffef5;
+    box-shadow: inset 0 0 0 2px #f59e0b;
+    border-radius: 3px;
+  }
+  td[contenteditable="true"]:empty::before {
+    content: attr(data-placeholder);
+    color: #ccc;
+    font-style: italic;
+    pointer-events: none;
+  }
+  .td-num { color: var(--muted); font-size: 11px; width: 28px; text-align: center; }
+
+  /* status badge */
+  .status-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 3px 8px;
+    border-radius: 20px;
+    font-size: 13px;
+    cursor: pointer;
+    user-select: none;
+    white-space: nowrap;
+    transition: transform 0.1s;
+    border: 1px solid transparent;
+  }
+  .status-badge:hover { transform: scale(1.1); }
+  .status-badge:active { transform: scale(0.95); }
+  .status-yes { background: var(--yes-bg); color: var(--yes); border-color: #a7f3d0; }
+  .status-pending { background: var(--pending-bg); color: var(--pending); border-color: #fde68a; }
+  .status-no { background: var(--no-bg); color: var(--no); border-color: #fca5a5; }
+
+  /* delete row */
+  .del-row {
+    opacity: 0;
+    background: none;
+    border: none;
+    color: #ccc;
+    cursor: pointer;
+    font-size: 14px;
+    padding: 2px 6px;
+    border-radius: 4px;
+    transition: all 0.15s;
+  }
+  tr:hover .del-row { opacity: 1; color: #f87171; }
+  .del-row:hover { background: #fee2e2; color: var(--no); }
+  .td-del { width: 32px; padding: 4px; }
+
+  /* add row */
+  .add-row-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 6px;
+    padding: 5px 12px;
+    background: none;
+    border: 1px dashed var(--border);
+    border-radius: 6px;
+    font-size: 12px;
+    color: var(--muted);
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .add-row-btn:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: var(--accent-light);
+  }
+
+  /* textarea answer */
+  .answer-textarea {
+    width: 100%;
+    min-height: 60px;
+    padding: 10px 12px;
+    font-family: var(--font);
+    font-size: 13px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: #fafaf9;
+    color: var(--text);
+    resize: vertical;
+    transition: border-color 0.15s, box-shadow 0.15s;
+    outline: none;
+  }
+  .answer-textarea:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(44,95,46,0.1);
+    background: white;
+  }
+  .answer-textarea::placeholder { color: #bbb; font-style: italic; }
+
+  /* print */
+  @media print {
+    #sidebar { display: none; }
+    #main { max-width: 100%; padding: 20px; }
+    .section { break-inside: avoid; }
+    .add-row-btn, .del-row, .sidebar-actions { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══ SIDEBAR ═══ -->
+<div id="sidebar">
+  <div class="sidebar-header">
+    <h1>Resham Sutra</h1>
+    <p>Field Specification — June 2026</p>
+  </div>
+  <nav id="toc">
+    <a href="#s1" class="nav-link">1 · Producer</a>
+    <a href="#s1-1" class="nav-sub nav-link">1.1 Identity</a>
+    <a href="#s1-2" class="nav-sub nav-link">1.2 Location</a>
+    <a href="#s1-3" class="nav-sub nav-link">1.3 Category & Role</a>
+    <a href="#s1-4" class="nav-sub nav-link">1.4 Skills</a>
+    <a href="#s1-5" class="nav-sub nav-link">1.5 Economic & Livelihood</a>
+    <a href="#s1-6" class="nav-sub nav-link">1.6 Household & Social</a>
+    <a href="#s1-7" class="nav-sub nav-link">1.7 Tools & Workspace</a>
+    <a href="#s1-8" class="nav-sub nav-link">1.8 Seller Details</a>
+    <a href="#s1-9" class="nav-sub nav-link">1.9 Profile Metadata</a>
+    <a href="#s2" class="nav-link">2 · Resham Doot</a>
+    <a href="#s3" class="nav-link">3 · Central Admin</a>
+    <a href="#s4" class="nav-link">4 · Cluster</a>
+    <a href="#s5" class="nav-link">5 · Buyer</a>
+    <a href="#s5-1" class="nav-sub nav-link">5.1 Registration</a>
+    <a href="#s5-2" class="nav-sub nav-link">5.2 Business Details</a>
+    <a href="#s6" class="nav-link">6 · Produce / Product</a>
+    <a href="#s6-1" class="nav-sub nav-link">6.1 Identity</a>
+    <a href="#s6-2" class="nav-sub nav-link">6.2 Quantities</a>
+    <a href="#s6-3" class="nav-sub nav-link">6.3 Quality & Certs</a>
+    <a href="#s6-4" class="nav-sub nav-link">6.4 Pricing</a>
+    <a href="#s6-5" class="nav-sub nav-link">6.5 Seasonality</a>
+    <a href="#s7" class="nav-link">7 · Scheme</a>
+    <a href="#s8" class="nav-link">8 · Training Record</a>
+    <a href="#s9" class="nav-link">9 · Express Interest</a>
+    <a href="#s10" class="nav-link">10 · Monthly Production</a>
+  </nav>
+  <div class="sidebar-actions">
+    <div class="save-indicator" id="saveIndicator">Auto-saves as you type</div>
+    <button id="btnSave">💾 Save to browser</button>
+    <button id="btnExport">⬇ Download filled HTML</button>
+    <button id="btnClear">✕ Clear all answers</button>
+  </div>
+</div>
+
+<!-- ═══ MAIN ═══ -->
+<div id="main">
+
+  <div class="page-title">
+    <h1>Resham Sutra — Field Details for Every Entity</h1>
+    <p>Click any status badge to cycle ✅ → 🔲 → ❌. Click cells to type. Click <strong>+ Add row</strong> to extend tables. Auto-saves to browser.</p>
+  </div>
+
+  <div class="legend">
+    <span><span class="status-badge status-yes">✅</span> Already in demo — confirmed</span>
+    <span><span class="status-badge status-pending">🔲</span> Proposed — needs sign-off</span>
+    <span><span class="status-badge status-no">❌</span> Explicitly not collecting</span>
+  </div>
+
+  <!-- ══════════════════════════════════════════════
+       SECTION 1 — PRODUCER
+  ══════════════════════════════════════════════ -->
+  <div class="section" id="s1">
+    <div class="section-header" onclick="toggleSection(this)">
+      <div class="section-title">
+        <span class="section-num">01</span>
+        <div>
+          <h2>Producer</h2>
+          <p>Artisan, farmer, spinner, weaver, or any silk-livelihoods worker</p>
+        </div>
+      </div>
+      <span class="toggle-icon">▾</span>
+    </div>
+    <div class="section-body">
+
+      <!-- 1.1 Identity -->
+      <div class="subsection" id="s1-1">
+        <div class="subsection-title">1.1 — Identity</div>
+        <div class="table-wrap">
+          <table id="t-1-1">
+            <thead><tr><th>#</th><th>Field</th><th>Example / Format</th><th>Status</th><th></th></tr></thead>
+            <tbody>
+              <tr><td class="td-num">1</td><td contenteditable="true">Full name</td><td contenteditable="true" data-placeholder="format...">Text</td><td><span class="status-badge status-yes" onclick="cycleStatus(this)">✅</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">2</td><td contenteditable="true">Profile photo</td><td contenteditable="true" data-placeholder="format...">Image (mandatory at onboarding)</td><td><span class="status-badge status-yes" onclick="cycleStatus(this)">✅</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">3</td><td contenteditable="true">Date of birth</td><td contenteditable="true" data-placeholder="format...">DD/MM/YYYY</td><td><span class="status-badge status-yes" onclick="cycleStatus(this)">✅</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">4</td><td contenteditable="true">Gender</td><td contenteditable="true" data-placeholder="format...">Female / Male / Other / Prefer not to say</td><td><span class="status-badge status-pending" onclick="cycleStatus(this)">🔲</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">5</td><td contenteditable="true">Marital status</td><td contenteditable="true" data-placeholder="format...">Single / Married / Widowed / Separated</td><td><span class="status-badge status-pending" onclick="cycleStatus(this)">🔲</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">6</td><td contenteditable="true">Phone number (primary)</td><td contenteditable="true" data-placeholder="format...">10-digit mobile</td><td><span class="status-badge status-yes" onclick="cycleStatus(this)">✅</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">7</td><td contenteditable="true">Alternate / family phone</td><td contenteditable="true" data-placeholder="format...">10-digit mobile</td><td><span class="status-badge status-pending" onclick="cycleStatus(this)">🔲</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">8</td><td contenteditable="true">WhatsApp number</td><td contenteditable="true" data-placeholder="format...">10-digit (may differ from primary)</td><td><span class="status-badge status-pending" onclick="cycleStatus(this)">🔲</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">9</td><td contenteditable="true">Email address</td><td contenteditable="true" data-placeholder="format...">Text</td><td><span class="status-badge status-pending" onclick="cycleStatus(this)">🔲</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">10</td><td contenteditable="true">National ID type</td><td contenteditable="true" data-placeholder="format...">Aadhaar / Voter ID / Ration Card / Other</td><td><span class="status-badge status-pending" onclick="cycleStatus(this)">🔲</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">11</td><td contenteditable="true">National ID number</td><td contenteditable="true" data-placeholder="format...">Text (stored masked)</td><td><span class="status-badge status-pending" onclick="cycleStatus(this)">🔲</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">12</td><td contenteditable="true">Producer system code</td><td contenteditable="true" data-placeholder="format...">Auto-generated, e.g. RS-VLG-001</td><td><span class="status-badge status-yes" onclick="cycleStatus(this)">✅</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">13</td><td contenteditable="true">QR code</td><td contenteditable="true" data-placeholder="format...">Generated from producer code</td><td><span class="status-badge status-yes" onclick="cycleStatus(this)">✅</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <button class="add-row-btn" onclick="addRow('t-1-1', 4)">+ Add field</button>
+      </div>
+
+      <!-- 1.2 Location -->
+      <div class="subsection" id="s1-2">
+        <div class="subsection-title">1.2 — Location</div>
+        <div class="table-wrap">
+          <table id="t-1-2">
+            <thead><tr><th>#</th><th>Field</th><th>Example / Format</th><th>Status</th><th></th></tr></thead>
+            <tbody>
+              <tr><td class="td-num">1</td><td contenteditable="true">Cluster (= village)</td><td contenteditable="true">Dropdown — assigned cluster</td><td><span class="status-badge status-yes" onclick="cycleStatus(this)">✅</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">2</td><td contenteditable="true">Village name</td><td contenteditable="true">Derived from cluster</td><td><span class="status-badge status-yes" onclick="cycleStatus(this)">✅</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">3</td><td contenteditable="true">District</td><td contenteditable="true">Text</td><td><span class="status-badge status-pending" onclick="cycleStatus(this)">🔲</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">4</td><td contenteditable="true">State</td><td contenteditable="true">Text</td><td><span class="status-badge status-pending" onclick="cycleStatus(this)">🔲</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">5</td><td contenteditable="true">Home address / street locality</td><td contenteditable="true">Text</td><td><span class="status-badge status-pending" onclick="cycleStatus(this)">🔲</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">6</td><td contenteditable="true">PIN code</td><td contenteditable="true">6-digit</td><td><span class="status-badge status-pending" onclick="cycleStatus(this)">🔲</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">7</td><td contenteditable="true">Distance to nearest market or road</td><td contenteditable="true">&lt; 5 km / 5–20 km / &gt; 20 km</td><td><span class="status-badge status-pending" onclick="cycleStatus(this)">🔲</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">8</td><td contenteditable="true">Network / connectivity quality</td><td contenteditable="true">Good / Moderate / Poor / No signal</td><td><span class="status-badge status-pending" onclick="cycleStatus(this)">🔲</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">9</td><td contenteditable="true">GPS coordinates</td><td contenteditable="true">Lat / long</td><td><span class="status-badge status-no" onclick="cycleStatus(this)">❌</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <button class="add-row-btn" onclick="addRow('t-1-2', 4)">+ Add field</button>
+      </div>
+
+      <!-- 1.3 Category & Role -->
+      <div class="subsection" id="s1-3">
+        <div class="subsection-title">1.3 — Category & Role</div>
+        <div class="table-wrap">
+          <table id="t-1-3a">
+            <thead><tr><th>#</th><th>Field</th><th>Example / Format</th><th>Status</th><th></th></tr></thead>
+            <tbody>
+              <tr><td class="td-num">1</td><td contenteditable="true">Producer category</td><td contenteditable="true">Multi-select from taxonomy</td><td><span class="status-badge status-yes" onclick="cycleStatus(this)">✅</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">2</td><td contenteditable="true">Primary category</td><td contenteditable="true">One of the above selections</td><td><span class="status-badge status-yes" onclick="cycleStatus(this)">✅</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">3</td><td contenteditable="true">Sub-type / role within category</td><td contenteditable="true">e.g. Handloom weaver, Muga farmer</td><td><span class="status-badge status-pending" onclick="cycleStatus(this)">🔲</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">4</td><td contenteditable="true">Skill level per category</td><td contenteditable="true">Beginner / Intermediate / Advanced / Master</td><td><span class="status-badge status-pending" onclick="cycleStatus(this)">🔲</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <button class="add-row-btn" onclick="addRow('t-1-3a', 4)">+ Add field</button>
+
+        <div class="question-label">What are all the categories and their sub-types? <span style="font-weight:400;color:var(--muted);">— fill in the full tree, we'll use exactly this</span></div>
+        <div class="table-wrap">
+          <table id="t-1-3b">
+            <thead><tr><th>Top-level Category</th><th>Sub-types / Roles</th><th>Notes</th><th></th></tr></thead>
+            <tbody>
+              <tr><td contenteditable="true">Weaver</td><td contenteditable="true">Handloom weaver, Power loom, Jacquard weaver</td><td contenteditable="true" data-placeholder="notes..."></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td contenteditable="true">Spinner</td><td contenteditable="true">Hand spinner, Charkha, Machine spinner</td><td contenteditable="true" data-placeholder="notes..."></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td contenteditable="true">Dyer</td><td contenteditable="true">Natural dyer, Chemical dyer, Block printer</td><td contenteditable="true" data-placeholder="notes..."></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td contenteditable="true">Silk Farmer</td><td contenteditable="true">Mulberry, Eri, Muga, Tasar</td><td contenteditable="true" data-placeholder="notes..."></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td contenteditable="true">Machine Operator</td><td contenteditable="true">Reeling, Twisting, Warping</td><td contenteditable="true" data-placeholder="notes..."></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td contenteditable="true">Finisher</td><td contenteditable="true">Edge finisher, Embroiderer, Embellisher</td><td contenteditable="true" data-placeholder="notes..."></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td contenteditable="true">Designer</td><td contenteditable="true">Pattern designer, Motif creator, CAD</td><td contenteditable="true" data-placeholder="notes..."></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td contenteditable="true">Trainer</td><td contenteditable="true">Skill trainer, Loom trainer, Quality trainer</td><td contenteditable="true" data-placeholder="notes..."></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td contenteditable="true">Seller</td><td contenteditable="true">Individual, SHG seller, Aggregator</td><td contenteditable="true" data-placeholder="notes..."></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td contenteditable="true">Aggregator</td><td contenteditable="true">Yarn, Fabric, Produce</td><td contenteditable="true" data-placeholder="notes..."></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td contenteditable="true">Stitcher</td><td contenteditable="true">Tailor, Cut-and-sew, Blouse stitcher</td><td contenteditable="true" data-placeholder="notes..."></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <button class="add-row-btn" onclick="addRow('t-1-3b', 3)">+ Add category</button>
+      </div>
+
+      <!-- 1.4 Skills -->
+      <div class="subsection" id="s1-4">
+        <div class="subsection-title">1.4 — Skills</div>
+        <div class="table-wrap">
+          <table id="t-1-4a">
+            <thead><tr><th>#</th><th>Field</th><th>Example / Format</th><th>Status</th><th></th></tr></thead>
+            <tbody>
+              <tr><td class="td-num">1</td><td contenteditable="true">Skill tags</td><td contenteditable="true">Multi-select from predefined list</td><td><span class="status-badge status-yes" onclick="cycleStatus(this)">✅</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">2</td><td contenteditable="true">Years of experience (overall)</td><td contenteditable="true">Integer</td><td><span class="status-badge status-yes" onclick="cycleStatus(this)">✅</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">3</td><td contenteditable="true">Years of experience per skill</td><td contenteditable="true">Integer per tag</td><td><span class="status-badge status-pending" onclick="cycleStatus(this)">🔲</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">4</td><td contenteditable="true">Can train others</td><td contenteditable="true">Yes / No</td><td><span class="status-badge status-pending" onclick="cycleStatus(this)">🔲</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">5</td><td contenteditable="true">Apprentice / mentor flag</td><td contenteditable="true">Yes / No</td><td><span class="status-badge status-pending" onclick="cycleStatus(this)">🔲</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">6</td><td contenteditable="true">Free-text skill note</td><td contenteditable="true">Text</td><td><span class="status-badge status-pending" onclick="cycleStatus(this)">🔲</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <button class="add-row-btn" onclick="addRow('t-1-4a', 4)">+ Add field</button>
+
+        <div class="question-label">What are all the skill tags? <span style="font-weight:400;color:var(--muted);">— list every tag with Hindi and Assamese names</span></div>
+        <div class="table-wrap">
+          <table id="t-1-4b">
+            <thead><tr><th>Skill Tag (English)</th><th>Skill Group</th><th>Hindi</th><th>Assamese</th><th></th></tr></thead>
+            <tbody>
+              <tr><td contenteditable="true">Handloom weaving</td><td contenteditable="true">Weaving</td><td contenteditable="true" data-placeholder="Hindi..."></td><td contenteditable="true" data-placeholder="Assamese..."></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td contenteditable="true">Jacquard weaving</td><td contenteditable="true">Weaving</td><td contenteditable="true" data-placeholder="Hindi..."></td><td contenteditable="true" data-placeholder="Assamese..."></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td contenteditable="true">Saree weaving</td><td contenteditable="true">Weaving</td><td contenteditable="true" data-placeholder="Hindi..."></td><td contenteditable="true" data-placeholder="Assamese..."></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td contenteditable="true">Mekhela Chadar weaving</td><td contenteditable="true">Weaving</td><td contenteditable="true" data-placeholder="Hindi..."></td><td contenteditable="true" data-placeholder="Assamese..."></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td contenteditable="true">Hand spinning</td><td contenteditable="true">Spinning</td><td contenteditable="true" data-placeholder="Hindi..."></td><td contenteditable="true" data-placeholder="Assamese..."></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td contenteditable="true">Charkha spinning</td><td contenteditable="true">Spinning</td><td contenteditable="true" data-placeholder="Hindi..."></td><td contenteditable="true" data-placeholder="Assamese..."></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td contenteditable="true">Machine spinning</td><td contenteditable="true">Spinning</td><td contenteditable="true" data-placeholder="Hindi..."></td><td contenteditable="true" data-placeholder="Assamese..."></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td contenteditable="true">Natural dyeing</td><td contenteditable="true">Dyeing</td><td contenteditable="true" data-placeholder="Hindi..."></td><td contenteditable="true" data-placeholder="Assamese..."></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td contenteditable="true">Block printing</td><td contenteditable="true">Dyeing</td><td contenteditable="true" data-placeholder="Hindi..."></td><td contenteditable="true" data-placeholder="Assamese..."></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td contenteditable="true">Mulberry cultivation</td><td contenteditable="true">Silk farming</td><td contenteditable="true" data-placeholder="Hindi..."></td><td contenteditable="true" data-placeholder="Assamese..."></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td contenteditable="true">Cocoon rearing</td><td contenteditable="true">Silk farming</td><td contenteditable="true" data-placeholder="Hindi..."></td><td contenteditable="true" data-placeholder="Assamese..."></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td contenteditable="true">Eri rearing</td><td contenteditable="true">Silk farming</td><td contenteditable="true" data-placeholder="Hindi..."></td><td contenteditable="true" data-placeholder="Assamese..."></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td contenteditable="true">Muga rearing</td><td contenteditable="true">Silk farming</td><td contenteditable="true" data-placeholder="Hindi..."></td><td contenteditable="true" data-placeholder="Assamese..."></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td contenteditable="true">Silk reeling</td><td contenteditable="true">Reeling</td><td contenteditable="true" data-placeholder="Hindi..."></td><td contenteditable="true" data-placeholder="Assamese..."></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td contenteditable="true">Yarn twisting</td><td contenteditable="true">Reeling</td><td contenteditable="true" data-placeholder="Hindi..."></td><td contenteditable="true" data-placeholder="Assamese..."></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td contenteditable="true">Hand embroidery</td><td contenteditable="true">Finishing</td><td contenteditable="true" data-placeholder="Hindi..."></td><td contenteditable="true" data-placeholder="Assamese..."></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td contenteditable="true">Machine embroidery</td><td contenteditable="true">Finishing</td><td contenteditable="true" data-placeholder="Hindi..."></td><td contenteditable="true" data-placeholder="Assamese..."></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td contenteditable="true">Motif / pattern design</td><td contenteditable="true">Design</td><td contenteditable="true" data-placeholder="Hindi..."></td><td contenteditable="true" data-placeholder="Assamese..."></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <button class="add-row-btn" onclick="addRow('t-1-4b', 4)">+ Add skill tag</button>
+      </div>
+
+      <!-- 1.5 Economic -->
+      <div class="subsection" id="s1-5">
+        <div class="subsection-title">1.5 — Economic & Livelihood</div>
+        <div class="table-wrap">
+          <table id="t-1-5a">
+            <thead><tr><th>#</th><th>Field</th><th>Example / Format</th><th>Status</th><th></th></tr></thead>
+            <tbody>
+              <tr><td class="td-num">1</td><td contenteditable="true">Primary livelihood</td><td contenteditable="true">Text — what they do for main income</td><td><span class="status-badge status-yes" onclick="cycleStatus(this)">✅</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">2</td><td contenteditable="true">Income baseline (range band)</td><td contenteditable="true">Rupee bracket dropdown</td><td><span class="status-badge status-yes" onclick="cycleStatus(this)">✅</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">3</td><td contenteditable="true">Monthly income from silk / weaving</td><td contenteditable="true">Separate range band</td><td><span class="status-badge status-pending" onclick="cycleStatus(this)">🔲</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">4</td><td contenteditable="true">Annual household income</td><td contenteditable="true">Range band</td><td><span class="status-badge status-pending" onclick="cycleStatus(this)">🔲</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">5</td><td contenteditable="true">Bank account holder</td><td contenteditable="true">Yes / No</td><td><span class="status-badge status-pending" onclick="cycleStatus(this)">🔲</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">6</td><td contenteditable="true">Bank name</td><td contenteditable="true">Text</td><td><span class="status-badge status-pending" onclick="cycleStatus(this)">🔲</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">7</td><td contenteditable="true">Jan Dhan / PMJDY account</td><td contenteditable="true">Yes / No</td><td><span class="status-badge status-pending" onclick="cycleStatus(this)">🔲</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">8</td><td contenteditable="true">Savings / SHG savings</td><td contenteditable="true">Amount or range band</td><td><span class="status-badge status-pending" onclick="cycleStatus(this)">🔲</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">9</td><td contenteditable="true">BPL status</td><td contenteditable="true">Yes / No</td><td><span class="status-badge status-no" onclick="cycleStatus(this)">❌</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <button class="add-row-btn" onclick="addRow('t-1-5a', 4)">+ Add field</button>
+
+        <div class="question-label">What are the income range bands (rupee brackets per month)?</div>
+        <div class="table-wrap">
+          <table id="t-1-5b">
+            <thead><tr><th>Band</th><th>Monthly Income — From (₹)</th><th>Monthly Income — To (₹)</th><th></th></tr></thead>
+            <tbody>
+              <tr><td contenteditable="true">Band 1</td><td contenteditable="true" data-placeholder="₹ amount..."></td><td contenteditable="true" data-placeholder="₹ amount..."></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td contenteditable="true">Band 2</td><td contenteditable="true" data-placeholder="₹ amount..."></td><td contenteditable="true" data-placeholder="₹ amount..."></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td contenteditable="true">Band 3</td><td contenteditable="true" data-placeholder="₹ amount..."></td><td contenteditable="true" data-placeholder="₹ amount..."></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td contenteditable="true">Band 4</td><td contenteditable="true" data-placeholder="₹ amount..."></td><td contenteditable="true" data-placeholder="₹ amount..."></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td contenteditable="true">Band 5</td><td contenteditable="true" data-placeholder="₹ amount..."></td><td contenteditable="true">and above</td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <button class="add-row-btn" onclick="addRow('t-1-5b', 3)">+ Add band</button>
+      </div>
+
+      <!-- 1.6 Household -->
+      <div class="subsection" id="s1-6">
+        <div class="subsection-title">1.6 — Household & Social</div>
+        <div class="table-wrap">
+          <table id="t-1-6">
+            <thead><tr><th>#</th><th>Field</th><th>Example / Format</th><th>Status</th><th></th></tr></thead>
+            <tbody>
+              <tr><td class="td-num">1</td><td contenteditable="true">Household size (total members)</td><td contenteditable="true">Integer</td><td><span class="status-badge status-yes" onclick="cycleStatus(this)">✅</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">2</td><td contenteditable="true">Number of dependents</td><td contenteditable="true">Integer</td><td><span class="status-badge status-yes" onclick="cycleStatus(this)">✅</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">3</td><td contenteditable="true">Number of earning members</td><td contenteditable="true">Integer</td><td><span class="status-badge status-pending" onclick="cycleStatus(this)">🔲</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">4</td><td contenteditable="true">Children under 14</td><td contenteditable="true">Integer</td><td><span class="status-badge status-pending" onclick="cycleStatus(this)">🔲</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">5</td><td contenteditable="true">Elderly (60+) in household</td><td contenteditable="true">Integer</td><td><span class="status-badge status-pending" onclick="cycleStatus(this)">🔲</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">6</td><td contenteditable="true">Differently-abled members</td><td contenteditable="true">Integer</td><td><span class="status-badge status-pending" onclick="cycleStatus(this)">🔲</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">7</td><td contenteditable="true">SHG / cooperative name</td><td contenteditable="true">Text</td><td><span class="status-badge status-pending" onclick="cycleStatus(this)">🔲</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">8</td><td contenteditable="true">SHG membership status</td><td contenteditable="true">Member / Leader / Not a member</td><td><span class="status-badge status-pending" onclick="cycleStatus(this)">🔲</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">9</td><td contenteditable="true">SHG ID / code</td><td contenteditable="true">Text</td><td><span class="status-badge status-pending" onclick="cycleStatus(this)">🔲</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">10</td><td contenteditable="true">Caste category</td><td contenteditable="true">SC / ST / OBC / General / Other</td><td><span class="status-badge status-pending" onclick="cycleStatus(this)">🔲</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">11</td><td contenteditable="true">Tribe / community</td><td contenteditable="true">Text</td><td><span class="status-badge status-pending" onclick="cycleStatus(this)">🔲</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">12</td><td contenteditable="true">Religion</td><td contenteditable="true">Text / dropdown</td><td><span class="status-badge status-pending" onclick="cycleStatus(this)">🔲</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">13</td><td contenteditable="true">Land ownership</td><td contenteditable="true">Yes / No</td><td><span class="status-badge status-pending" onclick="cycleStatus(this)">🔲</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <button class="add-row-btn" onclick="addRow('t-1-6', 4)">+ Add field</button>
+      </div>
+
+      <!-- 1.7 Tools -->
+      <div class="subsection" id="s1-7">
+        <div class="subsection-title">1.7 — Tools, Assets & Workspace</div>
+        <div class="table-wrap">
+          <table id="t-1-7">
+            <thead><tr><th>#</th><th>Field</th><th>Example / Format</th><th>Status</th><th></th></tr></thead>
+            <tbody>
+              <tr><td class="td-num">1</td><td contenteditable="true">Has access to machine / loom</td><td contenteditable="true">Yes / No</td><td><span class="status-badge status-yes" onclick="cycleStatus(this)">✅</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">2</td><td contenteditable="true">Machine / tool type</td><td contenteditable="true">Handloom / Power loom / Reeling / Charkha / etc.</td><td><span class="status-badge status-pending" onclick="cycleStatus(this)">🔲</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">3</td><td contenteditable="true">Machine ownership</td><td contenteditable="true">Owned / Rented / Shared / Cooperative</td><td><span class="status-badge status-pending" onclick="cycleStatus(this)">🔲</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">4</td><td contenteditable="true">Number of looms</td><td contenteditable="true">Integer</td><td><span class="status-badge status-pending" onclick="cycleStatus(this)">🔲</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">5</td><td contenteditable="true">Machine condition</td><td contenteditable="true">Good / Needs repair / Non-functional</td><td><span class="status-badge status-pending" onclick="cycleStatus(this)">🔲</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">6</td><td contenteditable="true">Workspace type</td><td contenteditable="true">Home / Shared shed / Cooperative / Factory</td><td><span class="status-badge status-pending" onclick="cycleStatus(this)">🔲</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">7</td><td contenteditable="true">Electricity access at workspace</td><td contenteditable="true">Yes / No</td><td><span class="status-badge status-pending" onclick="cycleStatus(this)">🔲</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">8</td><td contenteditable="true">Water access at workspace</td><td contenteditable="true">Yes / No</td><td><span class="status-badge status-pending" onclick="cycleStatus(this)">🔲</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">9</td><td contenteditable="true">Smartphone / internet access</td><td contenteditable="true">Yes / No</td><td><span class="status-badge status-pending" onclick="cycleStatus(this)">🔲</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">10</td><td contenteditable="true">Raw material sourcing</td><td contenteditable="true">Self / Cluster supply / NGO supply / Market</td><td><span class="status-badge status-pending" onclick="cycleStatus(this)">🔲</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">11</td><td contenteditable="true">Raw material type</td><td contenteditable="true">Silk / Cotton / Wool / Synthetic / Mixed</td><td><span class="status-badge status-pending" onclick="cycleStatus(this)">🔲</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <button class="add-row-btn" onclick="addRow('t-1-7', 4)">+ Add field</button>
+      </div>
+
+      <!-- 1.8 Seller -->
+      <div class="subsection" id="s1-8">
+        <div class="subsection-title">1.8 — Seller Details <span style="font-weight:400;color:var(--muted)">(only if producer is also a seller)</span></div>
+        <div class="table-wrap">
+          <table id="t-1-8">
+            <thead><tr><th>#</th><th>Field</th><th>Example / Format</th><th>Status</th><th></th></tr></thead>
+            <tbody>
+              <tr><td class="td-num">1</td><td contenteditable="true">Is a seller</td><td contenteditable="true">Yes / No flag</td><td><span class="status-badge status-yes" onclick="cycleStatus(this)">✅</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">2</td><td contenteditable="true">Sells through</td><td contenteditable="true">SHG / Individual / Market / Online / Aggregator</td><td><span class="status-badge status-pending" onclick="cycleStatus(this)">🔲</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">3</td><td contenteditable="true">Markets / platforms sold on</td><td contenteditable="true">Text</td><td><span class="status-badge status-pending" onclick="cycleStatus(this)">🔲</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">4</td><td contenteditable="true">Average monthly sales value</td><td contenteditable="true">Range band or ₹</td><td><span class="status-badge status-pending" onclick="cycleStatus(this)">🔲</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <button class="add-row-btn" onclick="addRow('t-1-8', 4)">+ Add field</button>
+      </div>
+
+      <!-- 1.9 Metadata -->
+      <div class="subsection" id="s1-9">
+        <div class="subsection-title">1.9 — Profile Metadata <span style="font-weight:400;color:var(--muted)">(system-generated, not entered manually)</span></div>
+        <div class="table-wrap">
+          <table id="t-1-9">
+            <thead><tr><th>#</th><th>Field</th><th>Status</th><th></th></tr></thead>
+            <tbody>
+              <tr><td class="td-num">1</td><td contenteditable="true">Date of registration</td><td><span class="status-badge status-yes" onclick="cycleStatus(this)">✅</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">2</td><td contenteditable="true">Profile created by (Resham Doot)</td><td><span class="status-badge status-yes" onclick="cycleStatus(this)">✅</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">3</td><td contenteditable="true">Last edited by</td><td><span class="status-badge status-yes" onclick="cycleStatus(this)">✅</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">4</td><td contenteditable="true">Last edited at</td><td><span class="status-badge status-yes" onclick="cycleStatus(this)">✅</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">5</td><td contenteditable="true">Profile completion %</td><td><span class="status-badge status-yes" onclick="cycleStatus(this)">✅</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">6</td><td contenteditable="true">Active / inactive status</td><td><span class="status-badge status-yes" onclick="cycleStatus(this)">✅</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">7</td><td contenteditable="true">Edit request flag</td><td><span class="status-badge status-yes" onclick="cycleStatus(this)">✅</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">8</td><td contenteditable="true">Growth pathway notes (by Doot)</td><td><span class="status-badge status-yes" onclick="cycleStatus(this)">✅</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">9</td><td contenteditable="true">Internal admin notes</td><td><span class="status-badge status-yes" onclick="cycleStatus(this)">✅</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">10</td><td contenteditable="true">Profile verified flag</td><td><span class="status-badge status-pending" onclick="cycleStatus(this)">🔲</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <button class="add-row-btn" onclick="addRow('t-1-9', 3)">+ Add field</button>
+      </div>
+
+    </div><!-- /section-body -->
+  </div><!-- /section 1 -->
+
+  <!-- helper macro for simple 4-col sections -->
+
+  <!-- SECTION 2 — RESHAM DOOT -->
+  <div class="section" id="s2">
+    <div class="section-header" onclick="toggleSection(this)">
+      <div class="section-title"><span class="section-num">02</span><div><h2>Resham Doot (Field Staff)</h2><p>Field staff member who onboards and manages producers</p></div></div>
+      <span class="toggle-icon">▾</span>
+    </div>
+    <div class="section-body">
+      <div class="subsection">
+        <div class="table-wrap">
+          <table id="t-2">
+            <thead><tr><th>#</th><th>Field</th><th>Example / Format</th><th>Status</th><th></th></tr></thead>
+            <tbody>
+              <tr><td class="td-num">1</td><td contenteditable="true">Full name</td><td contenteditable="true">Text</td><td><span class="status-badge status-yes" onclick="cycleStatus(this)">✅</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">2</td><td contenteditable="true">Phone number</td><td contenteditable="true">10-digit mobile</td><td><span class="status-badge status-yes" onclick="cycleStatus(this)">✅</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">3</td><td contenteditable="true">Email address</td><td contenteditable="true">Login credential</td><td><span class="status-badge status-yes" onclick="cycleStatus(this)">✅</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">4</td><td contenteditable="true">Profile photo</td><td contenteditable="true">Image</td><td><span class="status-badge status-pending" onclick="cycleStatus(this)">🔲</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">5</td><td contenteditable="true">Gender</td><td contenteditable="true">Female / Male / Other</td><td><span class="status-badge status-pending" onclick="cycleStatus(this)">🔲</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">6</td><td contenteditable="true">Date of birth</td><td contenteditable="true">DD/MM/YYYY</td><td><span class="status-badge status-pending" onclick="cycleStatus(this)">🔲</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">7</td><td contenteditable="true">Assigned cluster(s)</td><td contenteditable="true">Cluster reference(s)</td><td><span class="status-badge status-yes" onclick="cycleStatus(this)">✅</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">8</td><td contenteditable="true">Employment type</td><td contenteditable="true">Full-time / Part-time / Volunteer / Contractual</td><td><span class="status-badge status-pending" onclick="cycleStatus(this)">🔲</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">9</td><td contenteditable="true">Date joined / onboarded</td><td contenteditable="true">Date</td><td><span class="status-badge status-yes" onclick="cycleStatus(this)">✅</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">10</td><td contenteditable="true">Designation / title</td><td contenteditable="true">Text</td><td><span class="status-badge status-pending" onclick="cycleStatus(this)">🔲</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">11</td><td contenteditable="true">Reporting manager</td><td contenteditable="true">Admin reference</td><td><span class="status-badge status-pending" onclick="cycleStatus(this)">🔲</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">12</td><td contenteditable="true">Language preference</td><td contenteditable="true">English / Hindi / Assamese</td><td><span class="status-badge status-pending" onclick="cycleStatus(this)">🔲</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">13</td><td contenteditable="true">Home district / location</td><td contenteditable="true">Text</td><td><span class="status-badge status-pending" onclick="cycleStatus(this)">🔲</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">14</td><td contenteditable="true">Education level</td><td contenteditable="true">Text / dropdown</td><td><span class="status-badge status-pending" onclick="cycleStatus(this)">🔲</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">15</td><td contenteditable="true">Years of field experience</td><td contenteditable="true">Integer</td><td><span class="status-badge status-pending" onclick="cycleStatus(this)">🔲</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">16</td><td contenteditable="true">Active / inactive status</td><td contenteditable="true">Boolean</td><td><span class="status-badge status-yes" onclick="cycleStatus(this)">✅</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">17</td><td contenteditable="true">Notes / internal comments</td><td contenteditable="true">Text</td><td><span class="status-badge status-pending" onclick="cycleStatus(this)">🔲</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">18</td><td contenteditable="true">Date account created</td><td contenteditable="true">Timestamp (system)</td><td><span class="status-badge status-yes" onclick="cycleStatus(this)">✅</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">19</td><td contenteditable="true">Last login</td><td contenteditable="true">Timestamp (system)</td><td><span class="status-badge status-yes" onclick="cycleStatus(this)">✅</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <button class="add-row-btn" onclick="addRow('t-2', 4)">+ Add field</button>
+        <div class="question-label">Any other information you track about Resham Doots?</div>
+        <textarea class="answer-textarea" data-key="doot-notes" placeholder="e.g. training records, performance metrics, additional contact info..."></textarea>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 3 — CENTRAL ADMIN -->
+  <div class="section" id="s3">
+    <div class="section-header" onclick="toggleSection(this)">
+      <div class="section-title"><span class="section-num">03</span><div><h2>Central Admin</h2><p>Full system access across all clusters</p></div></div>
+      <span class="toggle-icon">▾</span>
+    </div>
+    <div class="section-body">
+      <div class="subsection">
+        <div class="table-wrap">
+          <table id="t-3">
+            <thead><tr><th>#</th><th>Field</th><th>Example / Format</th><th>Status</th><th></th></tr></thead>
+            <tbody>
+              <tr><td class="td-num">1</td><td contenteditable="true">Full name</td><td contenteditable="true">Text</td><td><span class="status-badge status-yes" onclick="cycleStatus(this)">✅</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">2</td><td contenteditable="true">Email address</td><td contenteditable="true">Login credential</td><td><span class="status-badge status-yes" onclick="cycleStatus(this)">✅</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">3</td><td contenteditable="true">Phone number</td><td contenteditable="true">10-digit mobile</td><td><span class="status-badge status-yes" onclick="cycleStatus(this)">✅</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">4</td><td contenteditable="true">Profile photo</td><td contenteditable="true">Image</td><td><span class="status-badge status-pending" onclick="cycleStatus(this)">🔲</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">5</td><td contenteditable="true">Designation / title</td><td contenteditable="true">e.g. Programme Manager</td><td><span class="status-badge status-pending" onclick="cycleStatus(this)">🔲</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">6</td><td contenteditable="true">Department</td><td contenteditable="true">Text</td><td><span class="status-badge status-pending" onclick="cycleStatus(this)">🔲</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">7</td><td contenteditable="true">Active / inactive status</td><td contenteditable="true">Boolean</td><td><span class="status-badge status-yes" onclick="cycleStatus(this)">✅</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">8</td><td contenteditable="true">Date account created</td><td contenteditable="true">Timestamp (system)</td><td><span class="status-badge status-yes" onclick="cycleStatus(this)">✅</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">9</td><td contenteditable="true">Last login</td><td contenteditable="true">Timestamp (system)</td><td><span class="status-badge status-yes" onclick="cycleStatus(this)">✅</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">10</td><td contenteditable="true">Notes</td><td contenteditable="true">Internal text</td><td><span class="status-badge status-pending" onclick="cycleStatus(this)">🔲</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <button class="add-row-btn" onclick="addRow('t-3', 4)">+ Add field</button>
+        <div class="question-label">List all admin accounts needed at pilot launch (name + email):</div>
+        <textarea class="answer-textarea" data-key="admin-roster" placeholder="e.g. Priya Sharma — priya@reshamsutra.org&#10;Rajan Das — rajan@reshamsutra.org"></textarea>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 4 — CLUSTER -->
+  <div class="section" id="s4">
+    <div class="section-header" onclick="toggleSection(this)">
+      <div class="section-title"><span class="section-num">04</span><div><h2>Cluster</h2><p>One village = one cluster; groups producers under a Resham Doot</p></div></div>
+      <span class="toggle-icon">▾</span>
+    </div>
+    <div class="section-body">
+      <div class="subsection">
+        <div class="table-wrap">
+          <table id="t-4a">
+            <thead><tr><th>#</th><th>Field</th><th>Example / Format</th><th>Status</th><th></th></tr></thead>
+            <tbody>
+              <tr><td class="td-num">1</td><td contenteditable="true">Cluster name</td><td contenteditable="true">Text — same as village name</td><td><span class="status-badge status-yes" onclick="cycleStatus(this)">✅</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">2</td><td contenteditable="true">Village name(s)</td><td contenteditable="true">Text (one village per cluster in pilot)</td><td><span class="status-badge status-yes" onclick="cycleStatus(this)">✅</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">3</td><td contenteditable="true">Cluster code / ID</td><td contenteditable="true">Auto-generated</td><td><span class="status-badge status-yes" onclick="cycleStatus(this)">✅</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">4</td><td contenteditable="true">District</td><td contenteditable="true">Text</td><td><span class="status-badge status-pending" onclick="cycleStatus(this)">🔲</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">5</td><td contenteditable="true">State</td><td contenteditable="true">Text</td><td><span class="status-badge status-pending" onclick="cycleStatus(this)">🔲</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">6</td><td contenteditable="true">PIN code</td><td contenteditable="true">6-digit</td><td><span class="status-badge status-pending" onclick="cycleStatus(this)">🔲</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">7</td><td contenteditable="true">Assigned Resham Doot</td><td contenteditable="true">Doot reference</td><td><span class="status-badge status-yes" onclick="cycleStatus(this)">✅</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">8</td><td contenteditable="true">Date cluster established / added</td><td contenteditable="true">Date</td><td><span class="status-badge status-pending" onclick="cycleStatus(this)">🔲</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">9</td><td contenteditable="true">Active / inactive status</td><td contenteditable="true">Boolean</td><td><span class="status-badge status-yes" onclick="cycleStatus(this)">✅</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">10</td><td contenteditable="true">Primary produce types</td><td contenteditable="true">Silk / Cotton / Cocoon / Mixed</td><td><span class="status-badge status-pending" onclick="cycleStatus(this)">🔲</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">11</td><td contenteditable="true">Dominant silk type</td><td contenteditable="true">Muga / Eri / Mulberry / Tasar</td><td><span class="status-badge status-pending" onclick="cycleStatus(this)">🔲</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">12</td><td contenteditable="true">Cluster photo / banner image</td><td contenteditable="true">Image</td><td><span class="status-badge status-pending" onclick="cycleStatus(this)">🔲</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">13</td><td contenteditable="true">Description / notes</td><td contenteditable="true">Text</td><td><span class="status-badge status-pending" onclick="cycleStatus(this)">🔲</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">14</td><td contenteditable="true">Nearest town / market</td><td contenteditable="true">Text</td><td><span class="status-badge status-pending" onclick="cycleStatus(this)">🔲</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">15</td><td contenteditable="true">Road connectivity</td><td contenteditable="true">Good / Seasonal / Poor</td><td><span class="status-badge status-pending" onclick="cycleStatus(this)">🔲</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <button class="add-row-btn" onclick="addRow('t-4a', 4)">+ Add field</button>
+        <div class="question-label">Official pilot cluster names — list every village launching at pilot:</div>
+        <div class="table-wrap">
+          <table id="t-4b">
+            <thead><tr><th>Cluster / Village Name</th><th>District</th><th>State</th><th>Notes</th><th></th></tr></thead>
+            <tbody>
+              <tr><td contenteditable="true" data-placeholder="village name..."></td><td contenteditable="true" data-placeholder="district..."></td><td contenteditable="true" data-placeholder="state..."></td><td contenteditable="true" data-placeholder="notes..."></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td contenteditable="true" data-placeholder="village name..."></td><td contenteditable="true" data-placeholder="district..."></td><td contenteditable="true" data-placeholder="state..."></td><td contenteditable="true" data-placeholder="notes..."></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td contenteditable="true" data-placeholder="village name..."></td><td contenteditable="true" data-placeholder="district..."></td><td contenteditable="true" data-placeholder="state..."></td><td contenteditable="true" data-placeholder="notes..."></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <button class="add-row-btn" onclick="addRow('t-4b', 4)">+ Add cluster</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 5 — BUYER -->
+  <div class="section" id="s5">
+    <div class="section-header" onclick="toggleSection(this)">
+      <div class="section-title"><span class="section-num">05</span><div><h2>Buyer</h2><p>Discovers clusters and products, expresses purchasing interest</p></div></div>
+      <span class="toggle-icon">▾</span>
+    </div>
+    <div class="section-body">
+      <div class="subsection" id="s5-1">
+        <div class="subsection-title">5.1 — Registration (collected at sign-up)</div>
+        <div class="table-wrap">
+          <table id="t-5-1">
+            <thead><tr><th>#</th><th>Field</th><th>Example / Format</th><th>Status</th><th></th></tr></thead>
+            <tbody>
+              <tr><td class="td-num">1</td><td contenteditable="true">Full name</td><td contenteditable="true">Text</td><td><span class="status-badge status-yes" onclick="cycleStatus(this)">✅</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">2</td><td contenteditable="true">Email address</td><td contenteditable="true">Login credential</td><td><span class="status-badge status-yes" onclick="cycleStatus(this)">✅</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">3</td><td contenteditable="true">Phone number</td><td contenteditable="true">10-digit mobile</td><td><span class="status-badge status-yes" onclick="cycleStatus(this)">✅</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">4</td><td contenteditable="true">Password</td><td contenteditable="true">Hashed</td><td><span class="status-badge status-yes" onclick="cycleStatus(this)">✅</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">5</td><td contenteditable="true">Profile photo</td><td contenteditable="true">Image</td><td><span class="status-badge status-pending" onclick="cycleStatus(this)">🔲</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">6</td><td contenteditable="true">Preferred language</td><td contenteditable="true">English / Hindi / Assamese</td><td><span class="status-badge status-pending" onclick="cycleStatus(this)">🔲</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <button class="add-row-btn" onclick="addRow('t-5-1', 4)">+ Add field</button>
+      </div>
+      <div class="subsection" id="s5-2">
+        <div class="subsection-title">5.2 — Business / Professional Details</div>
+        <div class="table-wrap">
+          <table id="t-5-2">
+            <thead><tr><th>#</th><th>Field</th><th>Example / Format</th><th>Status</th><th></th></tr></thead>
+            <tbody>
+              <tr><td class="td-num">1</td><td contenteditable="true">Organisation / company name</td><td contenteditable="true">Text</td><td><span class="status-badge status-pending" onclick="cycleStatus(this)">🔲</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">2</td><td contenteditable="true">Organisation type</td><td contenteditable="true">Individual / SME / Corporate / NGO / Export house / Designer / Retailer / Wholesaler / Govt</td><td><span class="status-badge status-pending" onclick="cycleStatus(this)">🔲</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">3</td><td contenteditable="true">Website URL</td><td contenteditable="true">Text</td><td><span class="status-badge status-pending" onclick="cycleStatus(this)">🔲</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">4</td><td contenteditable="true">GST number</td><td contenteditable="true">Text</td><td><span class="status-badge status-pending" onclick="cycleStatus(this)">🔲</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">5</td><td contenteditable="true">Business registration number</td><td contenteditable="true">Text</td><td><span class="status-badge status-pending" onclick="cycleStatus(this)">🔲</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">6</td><td contenteditable="true">Annual buying volume (approx.)</td><td contenteditable="true">Range band</td><td><span class="status-badge status-pending" onclick="cycleStatus(this)">🔲</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">7</td><td contenteditable="true">Products of interest</td><td contenteditable="true">Sarees / Fabric / Yarn / Cocoons / Garments / Other</td><td><span class="status-badge status-pending" onclick="cycleStatus(this)">🔲</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">8</td><td contenteditable="true">Buyer intent / segment</td><td contenteditable="true">Reseller / Own label / Export / CSR gifting / Personal use</td><td><span class="status-badge status-pending" onclick="cycleStatus(this)">🔲</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">9</td><td contenteditable="true">Geographic sourcing preference</td><td contenteditable="true">Text</td><td><span class="status-badge status-pending" onclick="cycleStatus(this)">🔲</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">10</td><td contenteditable="true">Billing address</td><td contenteditable="true">Text</td><td><span class="status-badge status-pending" onclick="cycleStatus(this)">🔲</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">11</td><td contenteditable="true">Shipping address</td><td contenteditable="true">Text</td><td><span class="status-badge status-pending" onclick="cycleStatus(this)">🔲</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <button class="add-row-btn" onclick="addRow('t-5-2', 4)">+ Add field</button>
+        <div class="question-label">Which business fields should be collected at registration vs first express interest?</div>
+        <textarea class="answer-textarea" data-key="buyer-reg-notes" placeholder="e.g. 'Org name at registration, GST only at first interest...'"></textarea>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 6 — PRODUCE -->
+  <div class="section" id="s6">
+    <div class="section-header" onclick="toggleSection(this)">
+      <div class="section-title"><span class="section-num">06</span><div><h2>Produce / Product Listing</h2><p>Goods available from a cluster, shown in the buyer catalog</p></div></div>
+      <span class="toggle-icon">▾</span>
+    </div>
+    <div class="section-body">
+      <div class="subsection" id="s6-1">
+        <div class="subsection-title">6.1 — Product Identity</div>
+        <div class="table-wrap">
+          <table id="t-6-1">
+            <thead><tr><th>#</th><th>Field</th><th>Example / Format</th><th>Status</th><th></th></tr></thead>
+            <tbody>
+              <tr><td class="td-num">1</td><td contenteditable="true">Product name</td><td contenteditable="true">Text</td><td><span class="status-badge status-pending" onclick="cycleStatus(this)">🔲</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">2</td><td contenteditable="true">Product type / category</td><td contenteditable="true">Saree / Mekhela Chadar / Fabric / Yarn / Cocoon / Raw silk / Dupatta / Stole / Garment / Other</td><td><span class="status-badge status-pending" onclick="cycleStatus(this)">🔲</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">3</td><td contenteditable="true">Silk type</td><td contenteditable="true">Muga / Eri / Mulberry / Tasar / Cotton / Blended</td><td><span class="status-badge status-pending" onclick="cycleStatus(this)">🔲</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">4</td><td contenteditable="true">Weave type</td><td contenteditable="true">Plain / Twill / Satin / Jacquard / Ikkat / Other</td><td><span class="status-badge status-pending" onclick="cycleStatus(this)">🔲</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">5</td><td contenteditable="true">Sub-type / variant name</td><td contenteditable="true">Text</td><td><span class="status-badge status-pending" onclick="cycleStatus(this)">🔲</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">6</td><td contenteditable="true">Origin cluster</td><td contenteditable="true">Cluster reference</td><td><span class="status-badge status-yes" onclick="cycleStatus(this)">✅</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">7</td><td contenteditable="true">Producer(s) who made it</td><td contenteditable="true">Producer reference(s)</td><td><span class="status-badge status-pending" onclick="cycleStatus(this)">🔲</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">8</td><td contenteditable="true">Product code / SKU</td><td contenteditable="true">Auto-generated or manual</td><td><span class="status-badge status-pending" onclick="cycleStatus(this)">🔲</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">9</td><td contenteditable="true">Product photo(s)</td><td contenteditable="true">Images — multi-upload</td><td><span class="status-badge status-pending" onclick="cycleStatus(this)">🔲</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">10</td><td contenteditable="true">Description (buyer-facing)</td><td contenteditable="true">Text</td><td><span class="status-badge status-pending" onclick="cycleStatus(this)">🔲</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">11</td><td contenteditable="true">Traditional / cultural significance</td><td contenteditable="true">Text</td><td><span class="status-badge status-pending" onclick="cycleStatus(this)">🔲</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">12</td><td contenteditable="true">Festival / occasion relevance</td><td contenteditable="true">Bihu / Durga Puja / Diwali / Wedding / Export</td><td><span class="status-badge status-pending" onclick="cycleStatus(this)">🔲</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <button class="add-row-btn" onclick="addRow('t-6-1', 4)">+ Add field</button>
+        <div class="question-label">What are all the product type categories for the catalog?</div>
+        <textarea class="answer-textarea" data-key="product-types" placeholder="List every category shown in buyer browse filters..."></textarea>
+      </div>
+      <div class="subsection" id="s6-2">
+        <div class="subsection-title">6.2 — Quantities & Dimensions</div>
+        <div class="table-wrap">
+          <table id="t-6-2">
+            <thead><tr><th>#</th><th>Field</th><th>Unit</th><th>Status</th><th></th></tr></thead>
+            <tbody>
+              <tr><td class="td-num">1</td><td contenteditable="true">Quantity available</td><td contenteditable="true">Pieces / metres / kg</td><td><span class="status-badge status-pending" onclick="cycleStatus(this)">🔲</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">2</td><td contenteditable="true">Unit of measure</td><td contenteditable="true">Pieces / Metres / Kilograms / Grams</td><td><span class="status-badge status-pending" onclick="cycleStatus(this)">🔲</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">3</td><td contenteditable="true">Minimum order quantity (MOQ)</td><td contenteditable="true">Same unit as above</td><td><span class="status-badge status-pending" onclick="cycleStatus(this)">🔲</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">4</td><td contenteditable="true">Length of fabric / saree</td><td contenteditable="true">Metres</td><td><span class="status-badge status-pending" onclick="cycleStatus(this)">🔲</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">5</td><td contenteditable="true">Width of fabric</td><td contenteditable="true">Centimetres or inches</td><td><span class="status-badge status-pending" onclick="cycleStatus(this)">🔲</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">6</td><td contenteditable="true">Weight per unit</td><td contenteditable="true">Grams</td><td><span class="status-badge status-pending" onclick="cycleStatus(this)">🔲</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">7</td><td contenteditable="true">Total weight of listing</td><td contenteditable="true">Kilograms</td><td><span class="status-badge status-pending" onclick="cycleStatus(this)">🔲</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">8</td><td contenteditable="true">Stock replenishment lead time</td><td contenteditable="true">Days / weeks</td><td><span class="status-badge status-pending" onclick="cycleStatus(this)">🔲</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <button class="add-row-btn" onclick="addRow('t-6-2', 4)">+ Add field</button>
+      </div>
+      <div class="subsection" id="s6-3">
+        <div class="subsection-title">6.3 — Quality & Certifications</div>
+        <div class="table-wrap">
+          <table id="t-6-3">
+            <thead><tr><th>#</th><th>Field</th><th>Example / Format</th><th>Status</th><th></th></tr></thead>
+            <tbody>
+              <tr><td class="td-num">1</td><td contenteditable="true">Quality grade</td><td contenteditable="true">A+ / A / B / C</td><td><span class="status-badge status-pending" onclick="cycleStatus(this)">🔲</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">2</td><td contenteditable="true">Grading standard</td><td contenteditable="true">Resham Sutra internal / Silk Board / ISI / GI</td><td><span class="status-badge status-pending" onclick="cycleStatus(this)">🔲</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">3</td><td contenteditable="true">Silk Mark certified</td><td contenteditable="true">Yes / No</td><td><span class="status-badge status-pending" onclick="cycleStatus(this)">🔲</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">4</td><td contenteditable="true">Silk Mark registration number</td><td contenteditable="true">Text</td><td><span class="status-badge status-pending" onclick="cycleStatus(this)">🔲</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">5</td><td contenteditable="true">GI (Geographical Indication) tagged</td><td contenteditable="true">Yes / No</td><td><span class="status-badge status-pending" onclick="cycleStatus(this)">🔲</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">6</td><td contenteditable="true">GI tag number</td><td contenteditable="true">Text</td><td><span class="status-badge status-pending" onclick="cycleStatus(this)">🔲</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">7</td><td contenteditable="true">Handmade / handloom certified</td><td contenteditable="true">Yes / No</td><td><span class="status-badge status-pending" onclick="cycleStatus(this)">🔲</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">8</td><td contenteditable="true">Handloom Mark certification</td><td contenteditable="true">Yes / No + file upload</td><td><span class="status-badge status-pending" onclick="cycleStatus(this)">🔲</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">9</td><td contenteditable="true">Organic / natural dye</td><td contenteditable="true">Yes / No</td><td><span class="status-badge status-pending" onclick="cycleStatus(this)">🔲</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">10</td><td contenteditable="true">Thread count (EPI × PPI)</td><td contenteditable="true">Numbers</td><td><span class="status-badge status-pending" onclick="cycleStatus(this)">🔲</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">11</td><td contenteditable="true">Denier of warp yarn</td><td contenteditable="true">Number</td><td><span class="status-badge status-pending" onclick="cycleStatus(this)">🔲</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">12</td><td contenteditable="true">Denier of weft yarn</td><td contenteditable="true">Number</td><td><span class="status-badge status-pending" onclick="cycleStatus(this)">🔲</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">13</td><td contenteditable="true">Defect %</td><td contenteditable="true">Number</td><td><span class="status-badge status-pending" onclick="cycleStatus(this)">🔲</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">14</td><td contenteditable="true">MSME registration</td><td contenteditable="true">Yes / No</td><td><span class="status-badge status-pending" onclick="cycleStatus(this)">🔲</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">15</td><td contenteditable="true">Fair trade certified</td><td contenteditable="true">Yes / No</td><td><span class="status-badge status-pending" onclick="cycleStatus(this)">🔲</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <button class="add-row-btn" onclick="addRow('t-6-3', 4)">+ Add field</button>
+      </div>
+      <div class="subsection" id="s6-4">
+        <div class="subsection-title">6.4 — Pricing</div>
+        <div class="table-wrap">
+          <table id="t-6-4">
+            <thead><tr><th>#</th><th>Field</th><th>Example / Format</th><th>Status</th><th></th></tr></thead>
+            <tbody>
+              <tr><td class="td-num">1</td><td contenteditable="true">Producer price (cost to make)</td><td contenteditable="true">₹ per unit</td><td><span class="status-badge status-pending" onclick="cycleStatus(this)">🔲</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">2</td><td contenteditable="true">Minimum selling price</td><td contenteditable="true">₹ per unit</td><td><span class="status-badge status-pending" onclick="cycleStatus(this)">🔲</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">3</td><td contenteditable="true">Recommended retail price</td><td contenteditable="true">₹ per unit</td><td><span class="status-badge status-pending" onclick="cycleStatus(this)">🔲</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">4</td><td contenteditable="true">Bulk price at MOQ</td><td contenteditable="true">₹ per unit</td><td><span class="status-badge status-pending" onclick="cycleStatus(this)">🔲</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">5</td><td contenteditable="true">Price includes GST</td><td contenteditable="true">Yes / No</td><td><span class="status-badge status-pending" onclick="cycleStatus(this)">🔲</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">6</td><td contenteditable="true">GST rate</td><td contenteditable="true">%</td><td><span class="status-badge status-pending" onclick="cycleStatus(this)">🔲</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <button class="add-row-btn" onclick="addRow('t-6-4', 4)">+ Add field</button>
+      </div>
+      <div class="subsection" id="s6-5">
+        <div class="subsection-title">6.5 — Availability & Seasonality</div>
+        <div class="table-wrap">
+          <table id="t-6-5">
+            <thead><tr><th>#</th><th>Field</th><th>Example / Format</th><th>Status</th><th></th></tr></thead>
+            <tbody>
+              <tr><td class="td-num">1</td><td contenteditable="true">Season available</td><td contenteditable="true">All year / Jan–Mar / Apr–Jun / Jul–Sep / Oct–Dec</td><td><span class="status-badge status-pending" onclick="cycleStatus(this)">🔲</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">2</td><td contenteditable="true">Lead time for custom order</td><td contenteditable="true">Number of days</td><td><span class="status-badge status-pending" onclick="cycleStatus(this)">🔲</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">3</td><td contenteditable="true">Cocoon harvest season</td><td contenteditable="true">Month range</td><td><span class="status-badge status-pending" onclick="cycleStatus(this)">🔲</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">4</td><td contenteditable="true">Reeling / weaving season</td><td contenteditable="true">Month range</td><td><span class="status-badge status-pending" onclick="cycleStatus(this)">🔲</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">5</td><td contenteditable="true">Last batch produced date</td><td contenteditable="true">Date</td><td><span class="status-badge status-pending" onclick="cycleStatus(this)">🔲</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">6</td><td contenteditable="true">Next expected batch date</td><td contenteditable="true">Date</td><td><span class="status-badge status-pending" onclick="cycleStatus(this)">🔲</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <button class="add-row-btn" onclick="addRow('t-6-5', 4)">+ Add field</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 7 — SCHEME -->
+  <div class="section" id="s7">
+    <div class="section-header" onclick="toggleSection(this)">
+      <div class="section-title"><span class="section-num">07</span><div><h2>Scheme (Government Programme)</h2><p>Master scheme database — producers matched by eligibility</p></div></div>
+      <span class="toggle-icon">▾</span>
+    </div>
+    <div class="section-body">
+      <div class="subsection">
+        <div class="table-wrap">
+          <table id="t-7a">
+            <thead><tr><th>#</th><th>Field</th><th>Example / Format</th><th>Status</th><th></th></tr></thead>
+            <tbody>
+              <tr><td class="td-num">1</td><td contenteditable="true">Scheme name (English)</td><td contenteditable="true">Text</td><td><span class="status-badge status-yes" onclick="cycleStatus(this)">✅</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">2</td><td contenteditable="true">Scheme name (Hindi)</td><td contenteditable="true">Text</td><td><span class="status-badge status-pending" onclick="cycleStatus(this)">🔲</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">3</td><td contenteditable="true">Scheme name (Assamese)</td><td contenteditable="true">Text</td><td><span class="status-badge status-pending" onclick="cycleStatus(this)">🔲</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">4</td><td contenteditable="true">Scheme code</td><td contenteditable="true">Internal or govt code</td><td><span class="status-badge status-pending" onclick="cycleStatus(this)">🔲</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">5</td><td contenteditable="true">Administering body</td><td contenteditable="true">Central Govt / State Govt / NGO / Bilateral</td><td><span class="status-badge status-pending" onclick="cycleStatus(this)">🔲</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">6</td><td contenteditable="true">Scheme type</td><td contenteditable="true">Subsidy / Loan / Training / Insurance / Market linkage / Equipment / Other</td><td><span class="status-badge status-pending" onclick="cycleStatus(this)">🔲</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">7</td><td contenteditable="true">Benefit description</td><td contenteditable="true">Text</td><td><span class="status-badge status-pending" onclick="cycleStatus(this)">🔲</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">8</td><td contenteditable="true">Benefit value (approx.)</td><td contenteditable="true">Text or ₹ amount</td><td><span class="status-badge status-pending" onclick="cycleStatus(this)">🔲</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">9</td><td contenteditable="true">Eligibility — gender</td><td contenteditable="true">Female / Male / Any</td><td><span class="status-badge status-yes" onclick="cycleStatus(this)">✅</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">10</td><td contenteditable="true">Eligibility — minimum age</td><td contenteditable="true">Integer (years)</td><td><span class="status-badge status-yes" onclick="cycleStatus(this)">✅</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">11</td><td contenteditable="true">Eligibility — maximum age</td><td contenteditable="true">Integer (years)</td><td><span class="status-badge status-yes" onclick="cycleStatus(this)">✅</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">12</td><td contenteditable="true">Eligibility — producer category</td><td contenteditable="true">Multi-select from taxonomy</td><td><span class="status-badge status-yes" onclick="cycleStatus(this)">✅</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">13</td><td contenteditable="true">Eligibility — caste</td><td contenteditable="true">SC / ST / OBC / Any</td><td><span class="status-badge status-pending" onclick="cycleStatus(this)">🔲</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">14</td><td contenteditable="true">Eligibility — state / geography</td><td contenteditable="true">Text</td><td><span class="status-badge status-pending" onclick="cycleStatus(this)">🔲</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">15</td><td contenteditable="true">Eligibility — other criteria</td><td contenteditable="true">Text</td><td><span class="status-badge status-pending" onclick="cycleStatus(this)">🔲</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">16</td><td contenteditable="true">Application URL</td><td contenteditable="true">URL</td><td><span class="status-badge status-pending" onclick="cycleStatus(this)">🔲</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">17</td><td contenteditable="true">Documents required to apply</td><td contenteditable="true">Text list</td><td><span class="status-badge status-pending" onclick="cycleStatus(this)">🔲</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">18</td><td contenteditable="true">Deadline / last date</td><td contenteditable="true">Date or "Rolling"</td><td><span class="status-badge status-pending" onclick="cycleStatus(this)">🔲</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">19</td><td contenteditable="true">Scheme active / inactive</td><td contenteditable="true">Boolean</td><td><span class="status-badge status-yes" onclick="cycleStatus(this)">✅</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">20</td><td contenteditable="true">Disclaimer text</td><td contenteditable="true">"Suggested eligibility only — not a guarantee"</td><td><span class="status-badge status-yes" onclick="cycleStatus(this)">✅</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">21</td><td contenteditable="true">Who maintains this record</td><td contenteditable="true">Named person / role</td><td><span class="status-badge status-pending" onclick="cycleStatus(this)">🔲</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">22</td><td contenteditable="true">Last verified date</td><td contenteditable="true">Date</td><td><span class="status-badge status-yes" onclick="cycleStatus(this)">✅</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <button class="add-row-btn" onclick="addRow('t-7a', 4)">+ Add field</button>
+        <div class="question-label">List the 10–15 schemes for the pilot scheme database:</div>
+        <div class="table-wrap">
+          <table id="t-7b">
+            <thead><tr><th>Scheme Name</th><th>Administering Body</th><th>Type</th><th>Who Is Eligible</th><th>Benefit</th><th></th></tr></thead>
+            <tbody>
+              <tr><td contenteditable="true" data-placeholder="scheme name..."></td><td contenteditable="true" data-placeholder="body..."></td><td contenteditable="true" data-placeholder="type..."></td><td contenteditable="true" data-placeholder="eligibility..."></td><td contenteditable="true" data-placeholder="benefit..."></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td contenteditable="true" data-placeholder="scheme name..."></td><td contenteditable="true" data-placeholder="body..."></td><td contenteditable="true" data-placeholder="type..."></td><td contenteditable="true" data-placeholder="eligibility..."></td><td contenteditable="true" data-placeholder="benefit..."></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td contenteditable="true" data-placeholder="scheme name..."></td><td contenteditable="true" data-placeholder="body..."></td><td contenteditable="true" data-placeholder="type..."></td><td contenteditable="true" data-placeholder="eligibility..."></td><td contenteditable="true" data-placeholder="benefit..."></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td contenteditable="true" data-placeholder="scheme name..."></td><td contenteditable="true" data-placeholder="body..."></td><td contenteditable="true" data-placeholder="type..."></td><td contenteditable="true" data-placeholder="eligibility..."></td><td contenteditable="true" data-placeholder="benefit..."></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td contenteditable="true" data-placeholder="scheme name..."></td><td contenteditable="true" data-placeholder="body..."></td><td contenteditable="true" data-placeholder="type..."></td><td contenteditable="true" data-placeholder="eligibility..."></td><td contenteditable="true" data-placeholder="benefit..."></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <button class="add-row-btn" onclick="addRow('t-7b', 5)">+ Add scheme</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 8 — TRAINING -->
+  <div class="section" id="s8">
+    <div class="section-header" onclick="toggleSection(this)">
+      <div class="section-title"><span class="section-num">08</span><div><h2>Training Record</h2><p>One record per training attended — a producer can have multiple</p></div></div>
+      <span class="toggle-icon">▾</span>
+    </div>
+    <div class="section-body">
+      <div class="subsection">
+        <div class="table-wrap">
+          <table id="t-8">
+            <thead><tr><th>#</th><th>Field</th><th>Example / Format</th><th>Status</th><th></th></tr></thead>
+            <tbody>
+              <tr><td class="td-num">1</td><td contenteditable="true">Training programme name</td><td contenteditable="true">Text</td><td><span class="status-badge status-yes" onclick="cycleStatus(this)">✅</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">2</td><td contenteditable="true">Organising body / institution</td><td contenteditable="true">Text</td><td><span class="status-badge status-yes" onclick="cycleStatus(this)">✅</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">3</td><td contenteditable="true">Training type</td><td contenteditable="true">Skill / Business / Digital / Health / Other</td><td><span class="status-badge status-pending" onclick="cycleStatus(this)">🔲</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">4</td><td contenteditable="true">Skill area covered</td><td contenteditable="true">Dropdown linked to skill tags</td><td><span class="status-badge status-pending" onclick="cycleStatus(this)">🔲</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">5</td><td contenteditable="true">Mode of delivery</td><td contenteditable="true">In-person / Online / Hybrid</td><td><span class="status-badge status-pending" onclick="cycleStatus(this)">🔲</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">6</td><td contenteditable="true">Venue / location</td><td contenteditable="true">Text</td><td><span class="status-badge status-pending" onclick="cycleStatus(this)">🔲</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">7</td><td contenteditable="true">Start date</td><td contenteditable="true">Date</td><td><span class="status-badge status-yes" onclick="cycleStatus(this)">✅</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">8</td><td contenteditable="true">End date / completion date</td><td contenteditable="true">Date</td><td><span class="status-badge status-pending" onclick="cycleStatus(this)">🔲</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">9</td><td contenteditable="true">Duration</td><td contenteditable="true">Integer (days or hours)</td><td><span class="status-badge status-pending" onclick="cycleStatus(this)">🔲</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">10</td><td contenteditable="true">Funded by</td><td contenteditable="true">NGO / Govt / Resham Sutra / Private / Other</td><td><span class="status-badge status-pending" onclick="cycleStatus(this)">🔲</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">11</td><td contenteditable="true">Trainer / facilitator name</td><td contenteditable="true">Text</td><td><span class="status-badge status-pending" onclick="cycleStatus(this)">🔲</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">12</td><td contenteditable="true">Certificate received</td><td contenteditable="true">Yes / No</td><td><span class="status-badge status-yes" onclick="cycleStatus(this)">✅</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">13</td><td contenteditable="true">Certificate upload</td><td contenteditable="true">PDF or image file</td><td><span class="status-badge status-yes" onclick="cycleStatus(this)">✅</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">14</td><td contenteditable="true">Certificate ID / number</td><td contenteditable="true">Text</td><td><span class="status-badge status-pending" onclick="cycleStatus(this)">🔲</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">15</td><td contenteditable="true">Certificate expiry date</td><td contenteditable="true">Date</td><td><span class="status-badge status-pending" onclick="cycleStatus(this)">🔲</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">16</td><td contenteditable="true">Assessment score</td><td contenteditable="true">Number or grade</td><td><span class="status-badge status-pending" onclick="cycleStatus(this)">🔲</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">17</td><td contenteditable="true">Total participants in this session</td><td contenteditable="true">Integer</td><td><span class="status-badge status-pending" onclick="cycleStatus(this)">🔲</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">18</td><td contenteditable="true">Attendance sheet upload</td><td contenteditable="true">File</td><td><span class="status-badge status-pending" onclick="cycleStatus(this)">🔲</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">19</td><td contenteditable="true">Notes</td><td contenteditable="true">Text</td><td><span class="status-badge status-pending" onclick="cycleStatus(this)">🔲</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">20</td><td contenteditable="true">Logged by</td><td contenteditable="true">User reference (system)</td><td><span class="status-badge status-yes" onclick="cycleStatus(this)">✅</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">21</td><td contenteditable="true">Logged at</td><td contenteditable="true">Timestamp (system)</td><td><span class="status-badge status-yes" onclick="cycleStatus(this)">✅</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <button class="add-row-btn" onclick="addRow('t-8', 4)">+ Add field</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 9 — EXPRESS INTEREST -->
+  <div class="section" id="s9">
+    <div class="section-header" onclick="toggleSection(this)">
+      <div class="section-title"><span class="section-num">09</span><div><h2>Express Interest (Buyer → Cluster)</h2><p>Created when buyer clicks "Express interest" on a cluster or product</p></div></div>
+      <span class="toggle-icon">▾</span>
+    </div>
+    <div class="section-body">
+      <div class="subsection">
+        <div class="table-wrap">
+          <table id="t-9">
+            <thead><tr><th>#</th><th>Field</th><th>Example / Format</th><th>Status</th><th></th></tr></thead>
+            <tbody>
+              <tr><td class="td-num">1</td><td contenteditable="true">Buyer reference</td><td contenteditable="true">Buyer ID</td><td><span class="status-badge status-yes" onclick="cycleStatus(this)">✅</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">2</td><td contenteditable="true">Cluster reference</td><td contenteditable="true">Cluster ID</td><td><span class="status-badge status-yes" onclick="cycleStatus(this)">✅</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">3</td><td contenteditable="true">Product / listing reference</td><td contenteditable="true">Listing ID (if interest on a specific product)</td><td><span class="status-badge status-pending" onclick="cycleStatus(this)">🔲</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">4</td><td contenteditable="true">Message from buyer</td><td contenteditable="true">Text</td><td><span class="status-badge status-pending" onclick="cycleStatus(this)">🔲</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">5</td><td contenteditable="true">Quantity interested in</td><td contenteditable="true">Number + unit</td><td><span class="status-badge status-pending" onclick="cycleStatus(this)">🔲</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">6</td><td contenteditable="true">Intended use</td><td contenteditable="true">Text</td><td><span class="status-badge status-pending" onclick="cycleStatus(this)">🔲</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">7</td><td contenteditable="true">Requested delivery timeline</td><td contenteditable="true">Date or free text</td><td><span class="status-badge status-pending" onclick="cycleStatus(this)">🔲</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">8</td><td contenteditable="true">Status</td><td contenteditable="true">New / Acknowledged / In discussion / Closed / Rejected</td><td><span class="status-badge status-yes" onclick="cycleStatus(this)">✅</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">9</td><td contenteditable="true">Submitted at</td><td contenteditable="true">Timestamp</td><td><span class="status-badge status-yes" onclick="cycleStatus(this)">✅</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">10</td><td contenteditable="true">Admin notified</td><td contenteditable="true">Boolean (system)</td><td><span class="status-badge status-yes" onclick="cycleStatus(this)">✅</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">11</td><td contenteditable="true">Resham Doot notified</td><td contenteditable="true">Boolean (system)</td><td><span class="status-badge status-yes" onclick="cycleStatus(this)">✅</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">12</td><td contenteditable="true">Admin response notes</td><td contenteditable="true">Text</td><td><span class="status-badge status-pending" onclick="cycleStatus(this)">🔲</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">13</td><td contenteditable="true">Closed at</td><td contenteditable="true">Timestamp</td><td><span class="status-badge status-pending" onclick="cycleStatus(this)">🔲</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">14</td><td contenteditable="true">Outcome</td><td contenteditable="true">Order placed / No match / Follow-up needed / Cancelled</td><td><span class="status-badge status-pending" onclick="cycleStatus(this)">🔲</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <button class="add-row-btn" onclick="addRow('t-9', 4)">+ Add field</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 10 — MONTHLY PRODUCTION -->
+  <div class="section" id="s10">
+    <div class="section-header" onclick="toggleSection(this)">
+      <div class="section-title"><span class="section-num">10</span><div><h2>Monthly Production Entry</h2><p>One entry per producer per month — core output tracking data</p></div></div>
+      <span class="toggle-icon">▾</span>
+    </div>
+    <div class="section-body">
+      <div class="subsection">
+        <div class="table-wrap">
+          <table id="t-10a">
+            <thead><tr><th>#</th><th>Field</th><th>Unit</th><th>Applies to</th><th>Status</th><th></th></tr></thead>
+            <tbody>
+              <tr><td class="td-num">1</td><td contenteditable="true">Entry month</td><td contenteditable="true">MM/YYYY</td><td contenteditable="true">All</td><td><span class="status-badge status-yes" onclick="cycleStatus(this)">✅</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">2</td><td contenteditable="true">Silk fabric woven</td><td contenteditable="true">Metres (m)</td><td contenteditable="true">Weaver</td><td><span class="status-badge status-yes" onclick="cycleStatus(this)">✅</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">3</td><td contenteditable="true">Raw produce — general</td><td contenteditable="true">Kilograms (kg)</td><td contenteditable="true">All</td><td><span class="status-badge status-yes" onclick="cycleStatus(this)">✅</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">4</td><td contenteditable="true">Cocoons harvested / handled</td><td contenteditable="true">Kilograms (kg)</td><td contenteditable="true">Silk Farmer</td><td><span class="status-badge status-yes" onclick="cycleStatus(this)">✅</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">5</td><td contenteditable="true">Yarn spun</td><td contenteditable="true">Grams or kg</td><td contenteditable="true">Spinner</td><td><span class="status-badge status-pending" onclick="cycleStatus(this)">🔲</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">6</td><td contenteditable="true">Yarn reeled</td><td contenteditable="true">Grams or kg</td><td contenteditable="true">Machine Operator</td><td><span class="status-badge status-pending" onclick="cycleStatus(this)">🔲</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">7</td><td contenteditable="true">Items dyed / printed</td><td contenteditable="true">Pieces or metres</td><td contenteditable="true">Dyer</td><td><span class="status-badge status-pending" onclick="cycleStatus(this)">🔲</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">8</td><td contenteditable="true">Sarees / garments produced</td><td contenteditable="true">Pieces</td><td contenteditable="true">Weaver / Stitcher</td><td><span class="status-badge status-pending" onclick="cycleStatus(this)">🔲</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">9</td><td contenteditable="true">Embroidered items produced</td><td contenteditable="true">Pieces</td><td contenteditable="true">Finisher</td><td><span class="status-badge status-pending" onclick="cycleStatus(this)">🔲</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">10</td><td contenteditable="true">Working days in month</td><td contenteditable="true">Days (1–31)</td><td contenteditable="true">All</td><td><span class="status-badge status-pending" onclick="cycleStatus(this)">🔲</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">11</td><td contenteditable="true">Hours worked per day (avg)</td><td contenteditable="true">Hours</td><td contenteditable="true">All</td><td><span class="status-badge status-pending" onclick="cycleStatus(this)">🔲</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">12</td><td contenteditable="true">Items sold this month</td><td contenteditable="true">Pieces</td><td contenteditable="true">Seller</td><td><span class="status-badge status-pending" onclick="cycleStatus(this)">🔲</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">13</td><td contenteditable="true">Revenue from sales this month</td><td contenteditable="true">₹</td><td contenteditable="true">Seller</td><td><span class="status-badge status-pending" onclick="cycleStatus(this)">🔲</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">14</td><td contenteditable="true">Income from production this month</td><td contenteditable="true">₹ or range band</td><td contenteditable="true">All</td><td><span class="status-badge status-pending" onclick="cycleStatus(this)">🔲</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">15</td><td contenteditable="true">Unsold stock (carryover)</td><td contenteditable="true">Pieces or kg</td><td contenteditable="true">Seller</td><td><span class="status-badge status-pending" onclick="cycleStatus(this)">🔲</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">16</td><td contenteditable="true">Raw material used</td><td contenteditable="true">kg or metres</td><td contenteditable="true">All</td><td><span class="status-badge status-pending" onclick="cycleStatus(this)">🔲</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">17</td><td contenteditable="true">Raw material sourced from</td><td contenteditable="true">Self / Cluster / NGO supply / Market</td><td contenteditable="true">All</td><td><span class="status-badge status-pending" onclick="cycleStatus(this)">🔲</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">18</td><td contenteditable="true">Notes / context</td><td contenteditable="true">Text</td><td contenteditable="true">All</td><td><span class="status-badge status-pending" onclick="cycleStatus(this)">🔲</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">19</td><td contenteditable="true">Entry logged by</td><td contenteditable="true">User reference (system)</td><td contenteditable="true">—</td><td><span class="status-badge status-yes" onclick="cycleStatus(this)">✅</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td class="td-num">20</td><td contenteditable="true">Entry timestamp</td><td contenteditable="true">Timestamp (system)</td><td contenteditable="true">—</td><td><span class="status-badge status-yes" onclick="cycleStatus(this)">✅</span></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <button class="add-row-btn" onclick="addRow('t-10a', 5)">+ Add field</button>
+
+        <div class="question-label" style="margin-top:20px">For each output field, mark which producer categories must fill it in (M = Mandatory, O = Optional, — = Not applicable):</div>
+        <div class="table-wrap">
+          <table id="t-10b">
+            <thead><tr><th>Output Field</th><th>Weaver</th><th>Spinner</th><th>Silk Farmer</th><th>Dyer</th><th>Machine Op.</th><th>Stitcher</th><th>Finisher</th><th>All</th><th></th></tr></thead>
+            <tbody>
+              <tr><td contenteditable="true">Silk fabric woven (m)</td><td contenteditable="true" data-placeholder="M/O/—"></td><td contenteditable="true" data-placeholder="M/O/—"></td><td contenteditable="true" data-placeholder="M/O/—"></td><td contenteditable="true" data-placeholder="M/O/—"></td><td contenteditable="true" data-placeholder="M/O/—"></td><td contenteditable="true" data-placeholder="M/O/—"></td><td contenteditable="true" data-placeholder="M/O/—"></td><td contenteditable="true" data-placeholder="M/O/—"></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td contenteditable="true">Raw produce (kg)</td><td contenteditable="true" data-placeholder="M/O/—"></td><td contenteditable="true" data-placeholder="M/O/—"></td><td contenteditable="true" data-placeholder="M/O/—"></td><td contenteditable="true" data-placeholder="M/O/—"></td><td contenteditable="true" data-placeholder="M/O/—"></td><td contenteditable="true" data-placeholder="M/O/—"></td><td contenteditable="true" data-placeholder="M/O/—"></td><td contenteditable="true" data-placeholder="M/O/—"></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td contenteditable="true">Cocoons (kg)</td><td contenteditable="true" data-placeholder="M/O/—"></td><td contenteditable="true" data-placeholder="M/O/—"></td><td contenteditable="true" data-placeholder="M/O/—"></td><td contenteditable="true" data-placeholder="M/O/—"></td><td contenteditable="true" data-placeholder="M/O/—"></td><td contenteditable="true" data-placeholder="M/O/—"></td><td contenteditable="true" data-placeholder="M/O/—"></td><td contenteditable="true" data-placeholder="M/O/—"></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td contenteditable="true">Yarn spun</td><td contenteditable="true" data-placeholder="M/O/—"></td><td contenteditable="true" data-placeholder="M/O/—"></td><td contenteditable="true" data-placeholder="M/O/—"></td><td contenteditable="true" data-placeholder="M/O/—"></td><td contenteditable="true" data-placeholder="M/O/—"></td><td contenteditable="true" data-placeholder="M/O/—"></td><td contenteditable="true" data-placeholder="M/O/—"></td><td contenteditable="true" data-placeholder="M/O/—"></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td contenteditable="true">Yarn reeled</td><td contenteditable="true" data-placeholder="M/O/—"></td><td contenteditable="true" data-placeholder="M/O/—"></td><td contenteditable="true" data-placeholder="M/O/—"></td><td contenteditable="true" data-placeholder="M/O/—"></td><td contenteditable="true" data-placeholder="M/O/—"></td><td contenteditable="true" data-placeholder="M/O/—"></td><td contenteditable="true" data-placeholder="M/O/—"></td><td contenteditable="true" data-placeholder="M/O/—"></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td contenteditable="true">Items dyed / printed</td><td contenteditable="true" data-placeholder="M/O/—"></td><td contenteditable="true" data-placeholder="M/O/—"></td><td contenteditable="true" data-placeholder="M/O/—"></td><td contenteditable="true" data-placeholder="M/O/—"></td><td contenteditable="true" data-placeholder="M/O/—"></td><td contenteditable="true" data-placeholder="M/O/—"></td><td contenteditable="true" data-placeholder="M/O/—"></td><td contenteditable="true" data-placeholder="M/O/—"></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td contenteditable="true">Sarees / garments produced</td><td contenteditable="true" data-placeholder="M/O/—"></td><td contenteditable="true" data-placeholder="M/O/—"></td><td contenteditable="true" data-placeholder="M/O/—"></td><td contenteditable="true" data-placeholder="M/O/—"></td><td contenteditable="true" data-placeholder="M/O/—"></td><td contenteditable="true" data-placeholder="M/O/—"></td><td contenteditable="true" data-placeholder="M/O/—"></td><td contenteditable="true" data-placeholder="M/O/—"></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td contenteditable="true">Embroidered items</td><td contenteditable="true" data-placeholder="M/O/—"></td><td contenteditable="true" data-placeholder="M/O/—"></td><td contenteditable="true" data-placeholder="M/O/—"></td><td contenteditable="true" data-placeholder="M/O/—"></td><td contenteditable="true" data-placeholder="M/O/—"></td><td contenteditable="true" data-placeholder="M/O/—"></td><td contenteditable="true" data-placeholder="M/O/—"></td><td contenteditable="true" data-placeholder="M/O/—"></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td contenteditable="true">Working days</td><td contenteditable="true" data-placeholder="M/O/—"></td><td contenteditable="true" data-placeholder="M/O/—"></td><td contenteditable="true" data-placeholder="M/O/—"></td><td contenteditable="true" data-placeholder="M/O/—"></td><td contenteditable="true" data-placeholder="M/O/—"></td><td contenteditable="true" data-placeholder="M/O/—"></td><td contenteditable="true" data-placeholder="M/O/—"></td><td contenteditable="true" data-placeholder="M/O/—"></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td contenteditable="true">Items sold</td><td contenteditable="true" data-placeholder="M/O/—"></td><td contenteditable="true" data-placeholder="M/O/—"></td><td contenteditable="true" data-placeholder="M/O/—"></td><td contenteditable="true" data-placeholder="M/O/—"></td><td contenteditable="true" data-placeholder="M/O/—"></td><td contenteditable="true" data-placeholder="M/O/—"></td><td contenteditable="true" data-placeholder="M/O/—"></td><td contenteditable="true" data-placeholder="M/O/—"></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+              <tr><td contenteditable="true">Revenue from sales</td><td contenteditable="true" data-placeholder="M/O/—"></td><td contenteditable="true" data-placeholder="M/O/—"></td><td contenteditable="true" data-placeholder="M/O/—"></td><td contenteditable="true" data-placeholder="M/O/—"></td><td contenteditable="true" data-placeholder="M/O/—"></td><td contenteditable="true" data-placeholder="M/O/—"></td><td contenteditable="true" data-placeholder="M/O/—"></td><td contenteditable="true" data-placeholder="M/O/—"></td><td class="td-del"><button class="del-row" onclick="delRow(this)">✕</button></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <button class="add-row-btn" onclick="addRow('t-10b', 9)">+ Add output field</button>
+      </div>
+    </div>
+  </div>
+
+  <p style="font-size:12px;color:var(--muted);text-align:center;margin-top:40px;padding-bottom:60px;">
+    Resham Sutra Producer System · Field Specification · June 2026
+  </p>
+
+</div><!-- /main -->
+
+<script>
+// ── STATUS CYCLE ──────────────────────────────────────────────────────────────
+const states = [
+  { text: '✅', cls: 'status-yes' },
+  { text: '🔲', cls: 'status-pending' },
+  { text: '❌', cls: 'status-no' }
+];
+function cycleStatus(el) {
+  const cur = states.findIndex(s => el.textContent.trim() === s.text);
+  const next = states[(cur + 1) % states.length];
+  el.textContent = next.text;
+  el.className = 'status-badge ' + next.cls;
+  scheduleSave();
+}
+
+// ── SECTION TOGGLE ───────────────────────────────────────────────────────────
+function toggleSection(header) {
+  const body = header.nextElementSibling;
+  const icon = header.querySelector('.toggle-icon');
+  const collapsed = body.classList.toggle('collapsed');
+  icon.style.transform = collapsed ? 'rotate(-90deg)' : '';
+}
+
+// ── ADD ROW ───────────────────────────────────────────────────────────────────
+function addRow(tableId, numCols) {
+  const tbody = document.querySelector('#' + tableId + ' tbody');
+  const rows = tbody.querySelectorAll('tr');
+  const newNum = rows.length + 1;
+  const tr = document.createElement('tr');
+
+  for (let i = 0; i < numCols; i++) {
+    const td = document.createElement('td');
+    if (i === 0 && numCols === 4 && document.querySelector('#' + tableId + ' th:first-child').textContent === '#') {
+      td.className = 'td-num';
+      td.textContent = newNum;
+    } else if (i === numCols - 2 && numCols >= 4) {
+      td.setAttribute('contenteditable', 'true');
+      td.setAttribute('data-placeholder', '...');
+      td.innerHTML = '<span class="status-badge status-pending" onclick="cycleStatus(this)">🔲</span>';
+    } else if (i === numCols - 1) {
+      td.className = 'td-del';
+      td.innerHTML = '<button class="del-row" onclick="delRow(this)">✕</button>';
+    } else {
+      td.setAttribute('contenteditable', 'true');
+      td.setAttribute('data-placeholder', '...');
+    }
+    tr.appendChild(td);
+  }
+  tbody.appendChild(tr);
+  // focus first editable
+  const first = tr.querySelector('[contenteditable]');
+  if (first) { first.focus(); }
+  scheduleSave();
+}
+
+// ── DELETE ROW ────────────────────────────────────────────────────────────────
+function delRow(btn) {
+  btn.closest('tr').remove();
+  scheduleSave();
+}
+
+// ── AUTOSAVE ──────────────────────────────────────────────────────────────────
+let saveTimer;
+function scheduleSave() {
+  clearTimeout(saveTimer);
+  document.getElementById('saveIndicator').textContent = 'Unsaved changes…';
+  saveTimer = setTimeout(saveToStorage, 1200);
+}
+
+function saveToStorage() {
+  const data = {};
+  // tables
+  document.querySelectorAll('table[id]').forEach(tbl => {
+    const rows = [];
+    tbl.querySelectorAll('tbody tr').forEach(tr => {
+      const cells = [];
+      tr.querySelectorAll('td').forEach(td => {
+        if (td.querySelector('.status-badge')) {
+          cells.push({ type: 'status', text: td.querySelector('.status-badge').textContent.trim() });
+        } else if (td.classList.contains('td-del')) {
+          cells.push({ type: 'del' });
+        } else {
+          cells.push({ type: 'text', text: td.textContent });
+        }
+      });
+      rows.push(cells);
+    });
+    data['table_' + tbl.id] = rows;
+  });
+  // textareas
+  document.querySelectorAll('textarea[data-key]').forEach(ta => {
+    data['ta_' + ta.dataset.key] = ta.value;
+  });
+  localStorage.setItem('rs_fieldspec', JSON.stringify(data));
+  document.getElementById('saveIndicator').textContent = 'Saved · ' + new Date().toLocaleTimeString();
+}
+
+function loadFromStorage() {
+  const raw = localStorage.getItem('rs_fieldspec');
+  if (!raw) return;
+  try {
+    const data = JSON.parse(raw);
+    // textareas first (easy)
+    document.querySelectorAll('textarea[data-key]').forEach(ta => {
+      const v = data['ta_' + ta.dataset.key];
+      if (v !== undefined) ta.value = v;
+    });
+    // tables
+    document.querySelectorAll('table[id]').forEach(tbl => {
+      const saved = data['table_' + tbl.id];
+      if (!saved) return;
+      const tbody = tbl.querySelector('tbody');
+      const existingRows = tbody.querySelectorAll('tr');
+      saved.forEach((cells, ri) => {
+        let tr = existingRows[ri];
+        if (!tr) {
+          tr = document.createElement('tr');
+          tbody.appendChild(tr);
+        }
+        const tds = tr.querySelectorAll('td');
+        cells.forEach((cell, ci) => {
+          let td = tds[ci];
+          if (!td) {
+            td = document.createElement('td');
+            tr.appendChild(td);
+          }
+          if (cell.type === 'status') {
+            let badge = td.querySelector('.status-badge');
+            if (!badge) {
+              badge = document.createElement('span');
+              badge.setAttribute('onclick', 'cycleStatus(this)');
+              td.appendChild(badge);
+            }
+            const st = states.find(s => s.text === cell.text) || states[1];
+            badge.textContent = st.text;
+            badge.className = 'status-badge ' + st.cls;
+          } else if (cell.type === 'text') {
+            if (!td.classList.contains('td-del') && !td.classList.contains('td-num')) {
+              td.textContent = cell.text;
+            } else if (td.classList.contains('td-num')) {
+              td.textContent = cell.text;
+            }
+          } else if (cell.type === 'del') {
+            if (!td.querySelector('.del-row')) {
+              td.className = 'td-del';
+              td.innerHTML = '<button class="del-row" onclick="delRow(this)">✕</button>';
+            }
+          }
+        });
+      });
+    });
+    document.getElementById('saveIndicator').textContent = 'Loaded from browser storage';
+  } catch(e) { console.warn('Load failed', e); }
+}
+
+// manual save button
+document.getElementById('btnSave').addEventListener('click', () => {
+  saveToStorage();
+});
+
+// export
+document.getElementById('btnExport').addEventListener('click', () => {
+  saveToStorage();
+  const blob = new Blob([document.documentElement.outerHTML], { type: 'text/html' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'resham-sutra-field-spec-' + new Date().toISOString().slice(0,10) + '.html';
+  a.click();
+});
+
+// clear
+document.getElementById('btnClear').addEventListener('click', () => {
+  if (!confirm('Clear all your answers and reset to defaults? This cannot be undone.')) return;
+  localStorage.removeItem('rs_fieldspec');
+  location.reload();
+});
+
+// auto-save on any input
+document.getElementById('main').addEventListener('input', scheduleSave);
+
+// active nav highlighting
+const navLinks = document.querySelectorAll('.nav-link');
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      navLinks.forEach(l => l.classList.remove('active'));
+      const match = document.querySelector('nav a[href="#' + e.target.id + '"]');
+      if (match) match.classList.add('active');
+    }
+  });
+}, { threshold: 0.2 });
+document.querySelectorAll('.section, .subsection').forEach(el => observer.observe(el));
+
+// load saved data on start
+loadFromStorage();
+</script>
+</body>
+</html>

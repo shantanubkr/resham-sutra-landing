@@ -1,0 +1,136 @@
+[
+  {
+    "id": "user-admin",
+    "phone": "9876543210",
+    "email": "admin@reshamsutra.demo",
+    "role": "admin",
+    "clusterIds": [],
+    "producerId": null,
+    "buyerId": null,
+    "name": "Central Admin",
+    "isActive": true,
+    "createdAt": "2026-01-01T00:00:00.000Z",
+    "staffProfile": null
+  },
+  {
+    "id": "user-head-sualkuchi",
+    "phone": "9876543213",
+    "email": "head.sualkuchi@reshamsutra.demo",
+    "role": "cluster_head",
+    "clusterIds": ["cluster-sualkuchi"],
+    "producerId": null,
+    "buyerId": null,
+    "name": "Dipankar Bora (Cluster Head)",
+    "isActive": true,
+    "createdAt": "2026-01-01T00:00:00.000Z",
+    "staffProfile": {
+      "gender": "male",
+      "dateOfBirth": "1985-03-12",
+      "employmentType": "Full-time",
+      "languagePreference": "as",
+      "homeDistrict": "Kamrup",
+      "yearsOfExperience": 12
+    }
+  },
+  {
+    "id": "user-head-barpeta",
+    "phone": "9876543214",
+    "email": "head.barpeta@reshamsutra.demo",
+    "role": "cluster_head",
+    "clusterIds": ["cluster-barpeta"],
+    "producerId": null,
+    "buyerId": null,
+    "name": "Mitali Das (Cluster Head)",
+    "isActive": true,
+    "createdAt": "2026-01-01T00:00:00.000Z",
+    "staffProfile": {
+      "gender": "female",
+      "dateOfBirth": "1988-07-22",
+      "employmentType": "Full-time",
+      "languagePreference": "as",
+      "homeDistrict": "Barpeta",
+      "yearsOfExperience": 9
+    }
+  },
+  {
+    "id": "user-field-sualkuchi",
+    "phone": "9876543211",
+    "email": "anita@reshamsutra.demo",
+    "role": "field_operator",
+    "clusterIds": ["cluster-sualkuchi", "cluster-barpeta"],
+    "producerId": null,
+    "buyerId": null,
+    "name": "Anita Sharma (Resham Doot)",
+    "isActive": true,
+    "createdAt": "2026-01-01T00:00:00.000Z",
+    "staffProfile": {
+      "gender": "female",
+      "dateOfBirth": "1990-11-05",
+      "employmentType": "Full-time",
+      "languagePreference": "as",
+      "homeDistrict": "Kamrup",
+      "yearsOfExperience": 6,
+      "kras": "Producer surveys, mobilization and outreach, plan and conduct training/demonstrations"
+    }
+  },
+  {
+    "id": "user-field-barpeta",
+    "phone": "9876543212",
+    "email": "renu@reshamsutra.demo",
+    "role": "field_operator",
+    "clusterIds": ["cluster-barpeta"],
+    "producerId": null,
+    "buyerId": null,
+    "name": "Renu Das (Resham Doot)",
+    "isActive": true,
+    "createdAt": "2026-01-01T00:00:00.000Z",
+    "staffProfile": {
+      "gender": "female",
+      "dateOfBirth": "1992-04-18",
+      "employmentType": "Part-time",
+      "languagePreference": "as",
+      "homeDistrict": "Barpeta",
+      "yearsOfExperience": 4,
+      "kras": "Producer surveys, mobilization and outreach, plan and conduct training/demonstrations"
+    }
+  },
+  {
+    "id": "user-producer-1",
+    "phone": "9876543220",
+    "email": null,
+    "role": "producer",
+    "clusterIds": [],
+    "producerId": "prod-1",
+    "buyerId": null,
+    "name": "Priya Barman",
+    "isActive": true,
+    "createdAt": "2026-01-15T00:00:00.000Z",
+    "staffProfile": null
+  },
+  {
+    "id": "user-buyer-1",
+    "phone": "9876543230",
+    "email": "buyer@demo.com",
+    "role": "buyer",
+    "clusterIds": [],
+    "producerId": null,
+    "buyerId": "buyer-1",
+    "name": "Meera Handlooms",
+    "isActive": true,
+    "createdAt": "2026-02-01T00:00:00.000Z",
+    "staffProfile": null
+  },
+  {
+    "id": "user-buyer-2",
+    "phone": "9876543231",
+    "email": "rajesh@demo.com",
+    "role": "buyer",
+    "clusterIds": [],
+    "producerId": null,
+    "buyerId": "buyer-2",
+    "name": "Rajesh Kumar",
+    "isActive": true,
+    "createdAt": "2026-02-05T00:00:00.000Z",
+    "staffProfile": null
+  }
+]

@@ -11,7 +11,6 @@
 - **Trust badges** — small logo graphics for credentials shown in the footer (FCRA registered, GuideStar verified, CSR compliant, ASME iShow 2019). Right now those are text only; you need official badge artwork and links to each registry/profile.
 - Privacy policy and terms pages
 - Registered office / legal copy review with your lawyer
-- `metadataBase`, sitemap, and robots.txt for SEO
 
 ## Media (optional polish)
 - Dedicated photo for Bharati Sarathi or Bilaspur programme (currently a group/field image)
@@ -34,3 +33,5 @@
 - ~~Contact form wiring~~ — code done; needs env key only
 - ~~Preview form messaging~~ — removed
 - ~~Research-backed impact metrics~~ — from `assets/reference/research/` (60 Decibels 2025, CEEW N=277); see `src/lib/metrics.ts`
+- ~~Producer Card~~ — separate project at `../resham-sutra-producer-card` (not in this repo)
+- ~~SEO basics~~ — `metadataBase`, `/sitemap.xml`, `/robots.txt`

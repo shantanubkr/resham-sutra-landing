@@ -25,6 +25,8 @@ node_modules/
 # misc
 .DS_Store
 *.pem
+Website content/
+Website content*.zip
 
 # debug
 npm-debug.log*

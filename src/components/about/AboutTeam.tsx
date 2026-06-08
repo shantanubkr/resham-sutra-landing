@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { TEAM, TEAM_NOTE } from "@/lib/about";
 import { ABOUT_IMAGES } from "@/lib/images";
-import { EYEBROW_PURPLE, ICON_BG_CYCLE } from "@/lib/brand-styles";
+import { EYEBROW_PURPLE } from "@/lib/brand-styles";
 
 export function AboutTeam() {
   return (
@@ -35,19 +35,20 @@ export function AboutTeam() {
           </div>
         </div>
 
-        <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          {TEAM.map((member, index) => (
+        <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {TEAM.map((member) => (
             <article
               key={member.name}
               className="rounded-xl border border-[#EEEEEE] bg-white p-6 text-center transition-colors hover:border-brand-purple/20"
             >
-              <div
-                className={`mx-auto flex h-16 w-16 items-center justify-center rounded-full text-xl font-bold ${ICON_BG_CYCLE[index % ICON_BG_CYCLE.length]}`}
-              >
-                {member.name
-                  .split(" ")
-                  .map((n) => n[0])
-                  .join("")}
+              <div className="relative mx-auto h-28 w-28 overflow-hidden rounded-full border-2 border-[#EEEEEE] bg-[#FAFAFA]">
+                <Image
+                  src={member.image}
+                  alt={member.name}
+                  fill
+                  className="object-cover object-top"
+                  sizes="112px"
+                />
               </div>
               <h3 className="mt-4 font-semibold text-[#1A1A1A]">{member.name}</h3>
               <p className="mt-1 text-sm font-medium text-brand-purple">

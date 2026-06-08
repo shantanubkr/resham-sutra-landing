@@ -27,7 +27,7 @@ Mirrors what Next.js serves from `public/`. Folder names match page sections.
 | `site/images/logos/` | Product logos (e.g. Gramsootra) |
 | `site/images/home/` | Homepage hero, impact strip, program teasers |
 | `site/images/about/` | About page photos |
-| `site/images/team/` | Team group and leadership photos |
+| `site/images/team/` | Team group photos + leadership headshots (`kunal-vaid.jpg`, `ratan-vaid.png`, `upasna-jain.jpg`) |
 | `site/images/advisors/` | Advisor headshots (`firstname-lastname.jpg`) |
 | `site/images/partners/logos/` | Partner logo files (`partner-slug.png`) |
 | `site/images/programs/` | Programs hub + cluster/solar/district |

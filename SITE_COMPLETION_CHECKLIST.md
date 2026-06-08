@@ -1,7 +1,7 @@
 # What’s left to complete the site
 
 ## You’re providing
-- Individual team headshots (Kunal, Ratan, Anugrah, Upasna)
+- ~~Individual team headshots~~ — Kunal, Ratan, Upasna in `assets/site/images/team/`
 
 ## Launch setup
 - Add `WEB3FORMS_ACCESS_KEY` or `RESEND_*` to `.env.local` and production host (see `.env.example`)
@@ -23,7 +23,6 @@
 ## Product / marketing
 - Machine brochure PDF downloads per model
 - Confirm machine prices on site match current price list
-- Kuldeep Singh Negi (COO) — add to team if still active
 
 ## Not needed (done or deferred)
 - ~~Case study income quotes~~ — updated from `assets/Case Studies/` (Narita, Ritngen output, Fakirpur, Bharati)

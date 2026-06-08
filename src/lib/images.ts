@@ -23,6 +23,12 @@ export const ABOUT_IMAGES = {
   teamLeadership: "/images/team/leadership-scroll.jpg",
 } as const;
 
+export const TEAM_IMAGES = {
+  "kunal-vaid": "/images/team/kunal-vaid.jpg",
+  "ratan-vaid": "/images/team/ratan-vaid.png",
+  "upasna-jain": "/images/team/upasna-jain.jpg",
+} as const;
+
 export const ADVISOR_IMAGES = {
   "sandeep-jain": "/images/advisors/sandeep-jain.jpg",
   "neelam-chhiber": "/images/advisors/neelam-chhiber.jpg",

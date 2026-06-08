@@ -1,4 +1,4 @@
-import { ABOUT_IMAGES as ABOUT_IMAGE_PATHS, ADVISOR_IMAGES } from "@/lib/images";
+import { ABOUT_IMAGES as ABOUT_IMAGE_PATHS, ADVISOR_IMAGES, TEAM_IMAGES } from "@/lib/images";
 import { SITE_METRICS } from "@/lib/metrics";
 
 export const ABOUT_IMAGES = ABOUT_IMAGE_PATHS;
@@ -56,21 +56,19 @@ export const TEAM = [
   {
     name: "Kunal Vaid",
     role: "CEO & Founder",
+    image: TEAM_IMAGES["kunal-vaid"],
     bio: "Founder of Resham Sutra Pvt. Ltd. Developed and scaled solar-powered silk reeling, spinning, and weaving machines. Brings modern technology matched to rural textile production.",
   },
   {
     name: "Ratan Vaid",
     role: "Managing Director",
+    image: TEAM_IMAGES["ratan-vaid"],
     bio: "35+ years in home textiles and international marketing (Target, Dillards, Next UK, Galeries Lafayette). Deep rural marketing experience for artisan product access.",
-  },
-  {
-    name: "Anugrah Tete",
-    role: "Chief Farming Officer",
-    bio: "Motivates hundreds of tribal silk farmers in Jharkhand. Former senior bank manager with two decades of experience before returning to community work.",
   },
   {
     name: "Upasna Jain",
     role: "Chief of Staff",
+    image: TEAM_IMAGES["upasna-jain"],
     bio: "Passionate about using technology to change women's lives — from teacher training to familiarising rural women with modern handloom devices.",
   },
 ] as const;

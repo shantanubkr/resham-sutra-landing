@@ -30,9 +30,9 @@ export const SITE_METRICS = {
   /** Ashden application: direct rural silk livelihood jobs created. */
   jobsCreated: 30000,
   /** Rural Experience Centres — one-stop training & machine hubs. */
-  recsSetup: 9,
+  recsSetup: 10,
   /** Rural Facility Centres — shared village production spaces. */
-  rfcsSetup: 47,
+  rfcsSetup: 37,
   /** Ashden application: total women impacted (direct + indirect). */
   womenTotalImpact: 100000,
 } as const;
@@ -95,6 +95,6 @@ export const RESEARCH_SOURCES = [
     title: "Ashden Award application",
     publisher: "Resham Sutra",
     year: null,
-    note: "30,000+ jobs · 9 RECs · 47 RFCs · 100,000+ women impacted",
+    note: "30,000+ jobs · 10 RECs · 37 RFCs · 100,000+ women impacted",
   },
 ] as const;

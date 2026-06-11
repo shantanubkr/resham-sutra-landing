@@ -146,7 +146,7 @@ export const TRUST_ITEMS = [
   "FCRA Registered (Ministry of Home Affairs)",
   "CSR Compliant under Companies Act 2013",
   "GuideStar India, Transparency Verified",
-  "ASME iShow 2019 Innovation Award",
+  "Ashden Award 2019 · 2025 Finalist",
   "Acumen Academy Fellow Organization",
   "UN SDG Aligned (SDGs 1, 5, 7, 8, 13)",
 ] as const;

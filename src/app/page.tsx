@@ -1,4 +1,5 @@
 import { FinalCTA } from "@/components/home/FinalCTA";
+import { AwardsSection } from "@/components/home/AwardsSection";
 import { Hero } from "@/components/home/Hero";
 import { ImpactStrip } from "@/components/home/ImpactStrip";
 import { Partners } from "@/components/home/Partners";
@@ -13,6 +14,7 @@ export default function Home() {
       <Hero />
       <ImpactStrip />
       <Partners />
+      <AwardsSection />
       <ProgramsTeaser />
       <VideoGallery
         videos={HOME_FEATURED_VIDEOS}

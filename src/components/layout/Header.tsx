@@ -7,6 +7,37 @@ import { Logo } from "@/components/layout/Logo";
 import { Button } from "@/components/ui/Button";
 import { NAV_LINKS } from "@/lib/constants";
 
+function NavChildLink({
+  href,
+  className,
+  onNavigate,
+  children,
+}: {
+  href: string;
+  className: string;
+  onNavigate?: () => void;
+  children: React.ReactNode;
+}) {
+  if (href.startsWith("http")) {
+    return (
+      <a
+        href={href}
+        target="_blank"
+        rel="noopener noreferrer"
+        className={className}
+      >
+        {children}
+      </a>
+    );
+  }
+
+  return (
+    <Link href={href} className={className} onClick={onNavigate}>
+      {children}
+    </Link>
+  );
+}
+
 export function Header() {
   const pathname = usePathname();
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -58,13 +89,13 @@ export function Header() {
                       <div className="absolute left-0 top-full z-50 pt-2">
                         <div className="min-w-[220px] rounded-lg border border-[#EEEEEE] bg-white py-1 shadow-lg">
                           {link.children.map((child) => (
-                            <Link
+                            <NavChildLink
                               key={child.href}
                               href={child.href}
                               className="block px-4 py-2 text-sm text-[#555555] transition-colors hover:bg-brand-green/10 hover:text-[#1A1A1A]"
                             >
                               {child.label}
-                            </Link>
+                            </NavChildLink>
                           ))}
                         </div>
                       </div>
@@ -141,14 +172,14 @@ export function Header() {
                       </Link>
                       <div className="pb-2 pl-3">
                         {link.children.map((child) => (
-                          <Link
+                          <NavChildLink
                             key={child.href}
                             href={child.href}
                             className="block py-1.5 text-sm text-[#555555]"
-                            onClick={() => setMobileOpen(false)}
+                            onNavigate={() => setMobileOpen(false)}
                           >
                             {child.label}
-                          </Link>
+                          </NavChildLink>
                         ))}
                       </div>
                     </div>

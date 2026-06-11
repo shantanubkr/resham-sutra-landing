@@ -4,7 +4,6 @@ import { AwardsSection } from "@/components/home/AwardsSection";
 import { AboutHero } from "@/components/about/AboutHero";
 import { AboutIntro } from "@/components/about/AboutIntro";
 import { AboutJourney } from "@/components/about/AboutJourney";
-import { AboutAdvisors } from "@/components/about/AboutAdvisors";
 import { AboutTeam } from "@/components/about/AboutTeam";
 import { VisionMission } from "@/components/about/VisionMission";
 
@@ -23,7 +22,6 @@ export default function AboutPage() {
       <AboutJourney />
       <AwardsSection />
       <AboutTeam />
-      <AboutAdvisors />
       <AboutCTA />
     </>
   );

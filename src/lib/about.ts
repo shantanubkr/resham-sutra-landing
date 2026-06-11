@@ -1,4 +1,4 @@
-import { ABOUT_IMAGES as ABOUT_IMAGE_PATHS, ADVISOR_IMAGES, TEAM_IMAGES } from "@/lib/images";
+import { ABOUT_IMAGES as ABOUT_IMAGE_PATHS, TEAM_IMAGES } from "@/lib/images";
 import { SITE_METRICS } from "@/lib/metrics";
 
 export const ABOUT_IMAGES = ABOUT_IMAGE_PATHS;
@@ -74,24 +74,3 @@ export const TEAM = [
 ] as const;
 
 export const TEAM_NOTE = `Team of ${SITE_METRICS.teamSize} professionals and ${SITE_METRICS.fieldTechnicians}+ trained field technicians supporting producers across India.` as const;
-
-export const ADVISORS = [
-  {
-    name: "Sandeep Jain",
-    role: "Strategy & leadership advisor",
-    image: ADVISOR_IMAGES["sandeep-jain"],
-    bio: "CEO-Founder, Value-Unlocked. Strategy consultant, leadership coach, and start-up mentor with finance and general management experience across geographies.",
-  },
-  {
-    name: "Neelam Chhiber",
-    role: "Advisor",
-    image: ADVISOR_IMAGES["neelam-chhiber"],
-    bio: "Mentor on rural livelihoods and social enterprise scale.",
-  },
-  {
-    name: "Dhirender Kumar",
-    role: "Advisor",
-    image: ADVISOR_IMAGES["dhirender-kumar"],
-    bio: "Advisor on operations and rural programme delivery.",
-  },
-] as const;

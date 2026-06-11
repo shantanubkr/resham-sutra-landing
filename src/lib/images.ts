@@ -29,12 +29,6 @@ export const TEAM_IMAGES = {
   "upasna-jain": "/images/team/upasna-jain.jpg",
 } as const;
 
-export const ADVISOR_IMAGES = {
-  "sandeep-jain": "/images/advisors/sandeep-jain.jpg",
-  "neelam-chhiber": "/images/advisors/neelam-chhiber.jpg",
-  "dhirender-kumar": "/images/advisors/dhirender-kumar.jpg",
-} as const;
-
 export const PROGRAM_IMAGES = {
   hubHero: "/images/programs/hub-hero.jpg",
   clusters: "/images/programs/clusters.jpg",

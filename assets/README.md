@@ -28,7 +28,6 @@ Mirrors what Next.js serves from `public/`. Folder names match page sections.
 | `site/images/home/` | Homepage hero, impact strip, program teasers |
 | `site/images/about/` | About page photos |
 | `site/images/team/` | Team group photos + leadership headshots (`kunal-vaid.jpg`, `ratan-vaid.png`, `upasna-jain.jpg`) |
-| `site/images/advisors/` | Advisor headshots (`firstname-lastname.jpg`) |
 | `site/images/partners/logos/` | Partner logo files (`{slug}.png` or `.jpg`) — see `src/lib/partners.ts` |
 | `site/images/programs/` | Programs hub + cluster/solar/district |
 | `site/images/products/` | Products hub cards and section heroes |
@@ -45,17 +44,7 @@ Mirrors what Next.js serves from `public/`. Folder names match page sections.
 - Partner logos: same slug as in `src/lib/constants.ts` → `PARTNERS[].slug`
 - Machine photos: same slug as in `src/lib/products.ts`
 
-### `assets/reference/` — source documents (not served)
-
-| Folder / file | Purpose |
-|---------------|---------|
-| `reference/case-studies/` | PDF/DOCX case studies used for impact copy |
-| `reference/content/` | Web content doc, product specs, background docs |
-| `reference/brand/` | Master logo files (PNG, EPS, BMP) |
-| `reference/partners-manifest.json` | Partner logo download map from live site |
-| `reference/research/` | Impact studies — 60 Decibels (2025), CEEW assessments, yarn/fabric quotes |
-
-Site copy and metrics sourced from research live in `src/lib/metrics.ts` (`SITE_METRICS` + `RESEARCH_METRICS`).
+Site copy and metrics live in `src/lib/` (`metrics.ts`, `impact.ts`, `products.ts`, etc.). Source PDFs and working docs are no longer kept in this repo after content was integrated.
 
 ---
 
@@ -85,7 +74,7 @@ Site copy and metrics sourced from research live in `src/lib/metrics.ts` (`SITE_
 Legacy folders (~2 GB) that duplicated or were no longer referenced by the site:
 
 - Raw WhatsApp uploads (`IMG-*.jpg`)
-- `Media/`, `Website Development/`, `Aug 22/` (content extracted to `reference/`)
+- `Media/`, `Website Development/`, `assets/reference/`, `Website content/` zip dumps
 - Live-site upload dumps, duplicate logo folders, zip archives
 
 If you need an old photo, check git history or your original backup.

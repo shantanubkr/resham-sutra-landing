@@ -30,12 +30,13 @@ export const NAV_LINKS = [
   },
   {
     label: "Products",
-    href: "/products",
+    href: "/#programs-offering",
     children: [
-      { label: "All Products", href: "/products" },
+      { label: "Overview", href: "/#programs-offering" },
       { label: "Machines", href: "/products/machines" },
-      { label: "Products", href: "/products/items" },
+      { label: "Cocoons & yarns", href: "/products/items" },
       { label: "Services", href: "/products/services" },
+      { label: "GramSootra app", href: "https://gramsootra.in/" },
     ],
   },
   { label: "Impact", href: "/impact" },

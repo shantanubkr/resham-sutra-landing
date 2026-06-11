@@ -5,44 +5,14 @@ import {
   HIGHLIGHT_PURPLE,
   PRODUCT_CATEGORY_ACCENTS,
 } from "@/lib/brand-styles";
-import { SITE_METRICS } from "@/lib/metrics";
-import { ECOSYSTEM_PILLARS, MACHINES, PRODUCT_PAGE_IMAGES } from "@/lib/products";
-
-const HUB_SECTIONS = [
-  {
-    category: "machines" as const,
-    title: "Machines",
-    href: "/products/machines",
-    image: PRODUCT_PAGE_IMAGES.cardMachines,
-    description: `Solar-powered reeling, spinning, and looms — ${SITE_METRICS.productivityRange} productivity, ${SITE_METRICS.machinesDeployed.toLocaleString("en-IN")}+ installed across India.`,
-    count: `${MACHINES.length} models`,
-  },
-  {
-    category: "items" as const,
-    title: "Products",
-    href: "/products/items",
-    image: PRODUCT_PAGE_IMAGES.cardItems,
-    description:
-      "Cocoons and silk yarns from certified rural producers. Buy inputs or finished yarn through our marketplace.",
-    count: "Cocoons & yarns",
-  },
-  {
-    category: "services" as const,
-    title: "Services",
-    href: "/products/services",
-    image: PRODUCT_PAGE_IMAGES.cardServices,
-    description:
-      "Training, raw material banks, facility centres, certification, and the Gramsootra digital platform.",
-    count: "6 services",
-  },
-] as const;
+import { ECOSYSTEM_PILLARS, PRODUCT_HUB_SECTIONS } from "@/lib/products";
 
 export function ProductsHubCards() {
   return (
     <>
       <section className="bg-white">
         <div className="mx-auto grid max-w-6xl gap-5 px-4 py-12 sm:px-6 lg:grid-cols-3 lg:gap-6 lg:px-8 lg:py-16">
-          {HUB_SECTIONS.map((section) => {
+          {PRODUCT_HUB_SECTIONS.map((section) => {
             const accent = PRODUCT_CATEGORY_ACCENTS[section.category];
             return (
               <Link

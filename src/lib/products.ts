@@ -306,6 +306,35 @@ export const SERVICES = [
   },
 ] as const;
 
+export const PRODUCT_HUB_SECTIONS = [
+  {
+    category: "machines" as const,
+    title: "Machines",
+    href: "/products/machines",
+    image: PRODUCT_PAGE_IMAGES.cardMachines,
+    description: `Solar-powered reeling, spinning, and looms — ${SITE_METRICS.productivityRange} productivity, ${SITE_METRICS.machinesDeployed.toLocaleString("en-IN")}+ installed across India.`,
+    count: `${MACHINES.length} models`,
+  },
+  {
+    category: "items" as const,
+    title: "Cocoons & yarns",
+    href: "/products/items",
+    image: PRODUCT_PAGE_IMAGES.cardItems,
+    description:
+      "Certified cocoons and silk yarns from rural producers. Buy inputs or finished yarn through our marketplace.",
+    count: "Cocoons & yarns",
+  },
+  {
+    category: "services" as const,
+    title: "Services",
+    href: "/products/services",
+    image: PRODUCT_PAGE_IMAGES.cardServices,
+    description:
+      "Training, RECs, raw material banks, facility centres, certification, and field support.",
+    count: "6 services",
+  },
+] as const;
+
 export const PRODUCTS_INTRO = {
   title: "Machines, materials, and services",
   description:
